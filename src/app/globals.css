@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
+/* Fluid background gradient (very subtle water vibe) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg1: #f6fbff;
+  --bg2: #eaf7ff;
+}
+html, body {
+  height: 100%;
+  background: radial-gradient(1200px 800px at 20% 10%, var(--bg2), transparent 60%),
+              radial-gradient(1000px 600px at 80% 0%, var(--bg2), transparent 55%),
+              linear-gradient(180deg, var(--bg1), #ffffff);
+  color: #0b2545;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Drop (water) buttons */
+.water-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 200ms;
+  background: radial-gradient(120% 120% at 50% 10%, #4FD1C5 0%, #2CA6A4 45%, #1C7D8B 100%);
+  color: white;
+  box-shadow: 0 10px 20px rgba(31,138,135,0.25), inset 0 0 10px rgba(255,255,255,0.3);
 }
+.water-btn:hover { transform: translateY(-1px) scale(1.02); }
+.water-btn:active { transform: translateY(0) scale(0.99); }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Subtle ripple on hover */
+.water-btn::after {
+  content: "";
+  position: absolute; 
+  inset: 0;
+  background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,0.45), transparent 40%);
+  opacity: 0; 
+  transition: opacity .25s ease;
 }
+.water-btn:hover::after { opacity: 1; }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Cards */
+.card {
+  border-radius: 1rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }

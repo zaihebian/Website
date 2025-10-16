@@ -1,0 +1,11 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="18" cy="18" r="16" fill="url(#gradient)" stroke="#4FD1C5" stroke-width="2"/>
+  <path d="M12 18c0-3.314 2.686-6 6-6s6 2.686 6 6c0 1.657-.672 3.157-1.757 4.243L18 26l-4.243-3.757C12.672 21.157 12 19.657 12 18z" fill="white"/>
+  <path d="M18 12c1.657 0 3 .895 3.757 2.243L18 18l-3.757-3.757C15.105 12.895 16.343 12 18 12z" fill="#4FD1C5"/>
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4FD1C5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1C7D8B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>
