@@ -40,7 +40,7 @@ export default function Consulting() {
       <div className="card">
         <h2 className="text-3xl md:text-4xl font-bold">Client Consulting</h2>
         <p className="mt-3 text-slate-700">
-          Tell us about your goals. We'll reply within one business day.
+          Tell us about your goals. We&apos;ll reply within one business day.
         </p>
         
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -145,7 +145,7 @@ export default function Consulting() {
                 <option value="25k-50k">$25k - $50k</option>
                 <option value="50k-100k">$50k - $100k</option>
                 <option value="over-100k">Over $100k</option>
-                <option value="discuss">Let's discuss</option>
+                <option value="discuss">Let&apos;s discuss</option>
               </select>
             </div>
           </div>

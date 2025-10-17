@@ -13,7 +13,7 @@ export default function Hero() {
         We blend AI, software craftsmanship, digital marketing, and international business consulting to deliver outcomes that move like water—smooth, fast, and reliable.
       </p>
       <div className="mt-8 flex justify-center gap-4">
-        <WaterButton asLink="#consulting">Start a Project</WaterButton>
+        <WaterButton asLink="#consulting">Get Started</WaterButton>
         <a className="underline underline-offset-4" href="#services">Our Services</a>
       </div>
     </section>
