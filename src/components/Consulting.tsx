@@ -1,8 +1,10 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import WaterButton from "./WaterButton";
 
 export default function Consulting() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,17 +17,8 @@ export default function Consulting() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // For now, just show an alert. You can integrate with Formspree, Netlify Forms, or your backend later.
-    alert("Thank you for your inquiry! We'll get back to you within one business day.");
-    setFormData({
-      name: "",
-      email: "",
-      company: "",
-      project: "",
-      timeline: "",
-      budget: "",
-      message: ""
-    });
+    // Redirect to success page
+    router.push("/success");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
