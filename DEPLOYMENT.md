@@ -81,7 +81,7 @@ LiqenTech/
 │       ├── Footer.tsx
 │       └── WaterButton.tsx
 ├── public/
-│   ├── logo-new.png
+│   ├── logo.png
 │   └── other assets
 ├── vercel.json
 ├── package.json
