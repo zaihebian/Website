@@ -31,14 +31,6 @@ export default function SuccessPage() {
               <WaterButton asLink="/">
                 Return to Home
               </WaterButton>
-              <div>
-                <a 
-                  href="#services" 
-                  className="text-blue-600 hover:text-blue-800 underline underline-offset-4"
-                >
-                  View Our Services
-                </a>
-              </div>
             </div>
           </div>
         </div>
