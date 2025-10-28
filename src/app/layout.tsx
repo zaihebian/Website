@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -115,11 +116,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="min-h-screen antialiased" suppressHydrationWarning>
+        <Script 
+          src="https://unpkg.com/@elevenlabs/convai-widget-embed" 
+          strategy="lazyOnload"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         {children}
+        <div className="fixed bottom-5 right-5 z-50">
+          <elevenlabs-convai agent-id="agent_1001k8pan34dearrfcxh47yzheme"></elevenlabs-convai>
+        </div>
       </body>
     </html>
   );
