@@ -51,3 +51,36 @@ html, body {
   border: 1px solid rgba(255, 255, 255, 0.6);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
+
+/* Company landing (dark theme) */
+.page-dark {
+  background: #0a0a0f;
+  color: #e5e7eb;
+}
+.page-dark .grid-bg {
+  background-image: radial-gradient(rgba(0, 180, 255, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.page-dark .glass-card {
+  background: rgba(20, 30, 45, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 180, 255, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.page-dark .glass-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 180, 255, 0.2);
+  border-color: rgba(0, 180, 255, 0.4);
+}
+.page-dark .hero-gradient {
+  background: radial-gradient(circle at 30% 40%, rgba(0, 180, 255, 0.15) 0%, transparent 50%);
+}
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+.page-dark .float {
+  animation: float 6s ease-in-out infinite;
+}

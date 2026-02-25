@@ -1,5 +1,9 @@
+"use client";
+
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import EarlyAccessModal from "@/components/EarlyAccessModal";
 
 const roles = [
   {
@@ -104,75 +108,78 @@ const roles = [
 ];
 
 export default function CareersPage() {
+  const [showEarlyAccess, setShowEarlyAccess] = useState(false);
+
   return (
-    <>
-      <Navbar />
-      <main className="mx-auto max-w-6xl px-4 py-12">
+    <div className="page-dark text-gray-200 antialiased grid-bg min-h-screen">
+      <Navbar variant="company" onEarlyAccessClick={() => setShowEarlyAccess(true)} />
+      <EarlyAccessModal isOpen={showEarlyAccess} onClose={() => setShowEarlyAccess(false)} />
+      <main className="pt-20 mx-auto max-w-6xl px-4 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">Join LiqenTech</h1>
-          <p className="mt-3 text-slate-700 max-w-2xl mx-auto">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">Join LiqenTech</h1>
+          <p className="mt-3 text-gray-300 max-w-2xl mx-auto">
             We hire thoughtfully and keep teams small. If you love deep work and clean execution, we&apos;d love to hear from you.
           </p>
         </div>
 
         <div className="space-y-8">
           {roles.map((role) => (
-            <div key={role.title} className="card">
+            <div key={role.title} className="rounded-2xl p-8 bg-[#0c0c14]/80 border border-white/10 backdrop-blur-sm">
               <div className="mb-6">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                  <h2 className="text-2xl font-bold text-slate-800">{role.title}</h2>
+                  <h2 className="text-2xl font-bold text-white">{role.title}</h2>
                   <div className="flex flex-wrap gap-2 mt-2 md:mt-0">
-                    <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                    <span className="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-sm font-medium border border-cyan-500/30">
                       {role.type}
                     </span>
-                    <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                    <span className="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm font-medium border border-green-500/30">
                       {role.location}
                     </span>
-                    <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
+                    <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm font-medium border border-purple-500/30">
                       {role.experience}
                     </span>
                   </div>
                 </div>
-                <p className="text-slate-700 text-lg leading-relaxed mb-6">
+                <p className="text-gray-300 text-lg leading-relaxed mb-6">
                   {role.description}
                 </p>
               </div>
 
               <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="text-xl font-semibold text-slate-800 mb-4">Key Responsibilities</h3>
+                  <h3 className="text-xl font-semibold text-white mb-4">Key Responsibilities</h3>
                   <ul className="space-y-2">
                     {role.responsibilities.map((responsibility, idx) => (
                       <li key={idx} className="flex items-start space-x-2">
-                        <span className="text-blue-500 mt-1">•</span>
-                        <span className="text-slate-700">{responsibility}</span>
+                        <span className="text-cyan-400 mt-1">•</span>
+                        <span className="text-gray-300">{responsibility}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-slate-800 mb-4">Requirements</h3>
+                  <h3 className="text-xl font-semibold text-white mb-4">Requirements</h3>
                   <ul className="space-y-2">
                     {role.requirements.map((requirement, idx) => (
                       <li key={idx} className="flex items-start space-x-2">
-                        <span className="text-blue-500 mt-1">•</span>
-                        <span className="text-slate-700">{requirement}</span>
+                        <span className="text-cyan-400 mt-1">•</span>
+                        <span className="text-gray-300">{requirement}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-slate-200">
-                <h3 className="text-xl font-semibold text-slate-800 mb-4">What We Offer</h3>
+              <div className="mt-8 pt-6 border-t border-white/10">
+                <h3 className="text-xl font-semibold text-white mb-4">What We Offer</h3>
                 <ul className="grid md:grid-cols-2 gap-2">
                   {role.benefits.map((benefit, idx) => (
                     <li key={idx} className="flex items-center space-x-2">
-                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className="text-slate-700">{benefit}</span>
+                      <span className="text-gray-300">{benefit}</span>
                     </li>
                   ))}
                 </ul>
@@ -182,20 +189,20 @@ export default function CareersPage() {
         </div>
 
         <div className="mt-16 text-center">
-          <div className="card max-w-2xl mx-auto">
-            <h3 className="text-xl font-semibold text-slate-800 mb-4">Ready to Join Our Team?</h3>
-            <p className="text-slate-600 mb-6">
-              We&apos;re always looking for talented individuals who share our passion for quality and innovation. 
+          <div className="rounded-2xl p-8 max-w-2xl mx-auto bg-[#0c0c14]/80 border border-white/10 backdrop-blur-sm">
+            <h3 className="text-xl font-semibold text-white mb-4">Ready to Join Our Team?</h3>
+            <p className="text-gray-400 mb-6">
+              We&apos;re always looking for talented individuals who share our passion for quality and innovation.
               Don&apos;t see a role that fits? We&apos;d still love to hear from you.
             </p>
             <div className="mb-4">
-              <h4 className="text-lg font-semibold text-slate-800 mb-2">How to Apply</h4>
-              <p className="text-slate-600 mb-4">
+              <h4 className="text-lg font-semibold text-white mb-2">How to Apply</h4>
+              <p className="text-gray-400 mb-4">
                 Send your CV and a brief cover letter to:
               </p>
-              <a 
-                href="mailto:careers@liqentech.com" 
-                className="text-blue-600 hover:text-blue-800 font-medium underline underline-offset-4 text-lg"
+              <a
+                href="mailto:careers@liqentech.com"
+                className="text-cyan-400 hover:text-cyan-300 font-medium underline underline-offset-4 text-lg"
               >
                 careers@liqentech.com
               </a>
@@ -203,7 +210,7 @@ export default function CareersPage() {
           </div>
         </div>
       </main>
-      <Footer />
-    </>
+      <Footer variant="dark" />
+    </div>
   );
 }

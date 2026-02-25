@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Liqentech | Software Solutions and Development Services",
-  description: "Liqentech builds custom software, digital systems, and data solutions for modern businesses. We blend AI, software craftsmanship, digital marketing, and international business consulting.",
+  title: "LiqenTech · AI SaaS for Growing Companies",
+  description: "LiqenTech builds powerful, user-first SaaS tools that help small and medium businesses scale faster. AI-powered assistants, marketing, sales, and business intelligence.",
   keywords: ["software development", "custom software", "AI solutions", "digital systems", "data solutions", "software consulting", "digital marketing", "business consulting"],
   authors: [{ name: "Liqentech" }],
   creator: "Liqentech",
@@ -115,19 +114,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
+      <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+      </head>
       <body className="min-h-screen antialiased" suppressHydrationWarning>
-        <Script 
-          src="https://unpkg.com/@elevenlabs/convai-widget-embed" 
-          strategy="lazyOnload"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         {children}
-        <div className="fixed bottom-5 right-5 z-50">
-          <elevenlabs-convai agent-id="agent_1001k8pan34dearrfcxh47yzheme"></elevenlabs-convai>
-        </div>
       </body>
     </html>
   );
