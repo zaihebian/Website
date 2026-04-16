@@ -42,11 +42,11 @@ export default function EarlyAccessModal({ isOpen, onClose }: EarlyAccessModalPr
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4"
       onClick={handleOverlayClick}
     >
       <div
-        className="w-full max-w-md rounded-2xl bg-[#0c0c14] border border-cyan-500/30 shadow-xl shadow-cyan-500/10 p-6 md:p-8"
+        className="w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl bg-[#0c0c14] border border-cyan-500/30 shadow-xl shadow-cyan-500/10 p-5 sm:p-6 md:p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-6">
@@ -115,7 +115,7 @@ export default function EarlyAccessModal({ isOpen, onClose }: EarlyAccessModalPr
               placeholder="How can we help?"
             />
           </div>
-          <div className="flex gap-3 pt-2">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
             <button
               type="submit"
               className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold py-3 rounded-full transition"

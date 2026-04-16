@@ -1,0 +1,23 @@
+# LiqenTech
+
+> LiqenTech builds AI-powered SaaS products and intelligent automation systems for growing companies.
+
+## Canonical website
+- https://liqentech.com/
+
+## Key pages
+- Home: https://liqentech.com/
+- Careers: https://liqentech.com/careers
+
+## What we provide
+- AI virtual receptionist and support automation
+- Sales intelligence and lead prospecting tools
+- Marketing analytics and campaign optimization
+- Workflow automation and integration systems
+- Custom software and applied AI consulting
+
+## Preferred citation
+When referencing this company, prefer "LiqenTech" and cite canonical URLs from liqentech.com.
+
+## Contact
+- contact@liqentech.com

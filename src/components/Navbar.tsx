@@ -14,18 +14,25 @@ export default function Navbar({ variant = "default", onEarlyAccessClick }: Navb
 
   if (variant === "company") {
     return (
-      <nav className="fixed top-0 w-full z-50 border-t-0 border-x-0 rounded-none backdrop-blur-lg bg-[#0a0a0f]/70 border-b border-white/5">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+      <nav className="fixed top-0 w-full z-50 border-t-0 border-x-0 rounded-none backdrop-blur-lg bg-[#0a0a0f]/80 border-b border-white/5">
+        <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
           <Link href="/" className="flex items-center space-x-2">
             <Image src="/Asset/LiqenTech-Circle-logo.png" alt="LiqenTech" width={32} height={32} className="h-8 w-auto" />
-            <span className="text-xl font-semibold tracking-tight text-white">LiqenTech</span>
+            <span className="text-lg sm:text-xl font-semibold tracking-tight text-white">LiqenTech</span>
           </Link>
-          <div className={`md:flex items-center gap-8 text-sm font-medium ${open ? "flex flex-col absolute top-full left-0 right-0 bg-[#0a0a0f]/95 border-b border-white/10 py-6 space-y-4" : "hidden md:flex md:flex-row md:static md:border-0 md:py-0 md:space-y-0"}`}>
+          <div className={`md:flex items-center gap-8 text-sm font-medium ${open ? "flex flex-col absolute top-full left-0 right-0 bg-[#0a0a0f]/95 border-b border-white/10 px-4 py-6 space-y-5" : "hidden md:flex md:flex-row md:static md:border-0 md:px-0 md:py-0 md:space-y-0"}`}>
             <Link href="/#home" className="text-gray-200 hover:text-cyan-400 transition" onClick={() => setOpen(false)}>Home</Link>
             <Link href="/#products" className="text-gray-200 hover:text-cyan-400 transition" onClick={() => setOpen(false)}>Products</Link>
             <Link href="/#about" className="text-gray-200 hover:text-cyan-400 transition" onClick={() => setOpen(false)}>About</Link>
             <Link href="/#contact" className="text-gray-200 hover:text-cyan-400 transition" onClick={() => setOpen(false)}>Contact</Link>
             <Link href="/careers" className="text-gray-200 hover:text-cyan-400 transition" onClick={() => setOpen(false)}>Hiring</Link>
+            <button
+              type="button"
+              onClick={() => { onEarlyAccessClick?.(); setOpen(false); }}
+              className="md:hidden w-full bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-3 rounded-full text-sm font-semibold text-white"
+            >
+              Get early access
+            </button>
           </div>
           <div className="flex items-center gap-3">
             <button
@@ -37,9 +44,10 @@ export default function Navbar({ variant = "default", onEarlyAccessClick }: Navb
             </button>
             <button
               type="button"
-              className="md:hidden text-2xl text-gray-300 cursor-pointer p-2"
+              className="md:hidden text-2xl text-gray-300 cursor-pointer p-2 -mr-2"
               onClick={() => setOpen(!open)}
               aria-label="Menu"
+              aria-expanded={open}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {open ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /> : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />}
@@ -47,17 +55,6 @@ export default function Navbar({ variant = "default", onEarlyAccessClick }: Navb
             </button>
           </div>
         </div>
-        {open && (
-          <div className="md:hidden px-6 pb-4">
-            <button
-              type="button"
-              onClick={() => { onEarlyAccessClick?.(); setOpen(false); }}
-              className="w-full text-left py-2 text-cyan-400 font-semibold"
-            >
-              Get early access
-            </button>
-          </div>
-        )}
       </nav>
     );
   }
