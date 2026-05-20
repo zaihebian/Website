@@ -174,11 +174,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <Script id="mautic-pageview" strategy="afterInteractive">
           {`
-            window.addEventListener("load", function () {
+            function sendMauticPageview() {
               if (typeof mt === "function") {
                 mt("send", "pageview");
               }
-            });
+            }
+
+            if (document.readyState === "complete") {
+              sendMauticPageview();
+            } else {
+              window.addEventListener("load", sendMauticPageview, { once: true });
+            }
           `}
         </Script>
         <script
