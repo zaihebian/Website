@@ -18,6 +18,26 @@ async function proxyMauticRequest(request: NextRequest, context: RouteContext) {
   const requestHeaders = new Headers();
   requestHeaders.set("ngrok-skip-browser-warning", "true");
 
+  const forwardedHeaderNames = [
+    "accept",
+    "accept-language",
+    "referer",
+    "user-agent",
+    "x-forwarded-for",
+    "x-forwarded-host",
+    "x-forwarded-proto",
+    "x-real-ip",
+  ];
+
+  for (const headerName of forwardedHeaderNames) {
+    const headerValue = request.headers.get(headerName);
+    if (headerValue) {
+      requestHeaders.set(headerName, headerValue);
+    }
+  }
+
+  requestHeaders.set("origin", request.nextUrl.origin);
+
   const contentType = request.headers.get("content-type");
   if (contentType) {
     requestHeaders.set("content-type", contentType);
