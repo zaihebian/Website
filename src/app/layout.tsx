@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
 
 const siteUrl = "https://liqentech.com";
@@ -160,33 +159,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
       </head>
       <body className="min-h-screen antialiased" suppressHydrationWarning>
-        <Script id="mautic-bootstrap" strategy="beforeInteractive">
-          {`
-            window.MauticTrackingObject = "mt";
-            window.mt = window.mt || function () {
-              (window.mt.q = window.mt.q || []).push(arguments);
-            };
-          `}
-        </Script>
-        <Script
-          src="https://elated-unbutton-scuff.ngrok-free.dev/mtc.js"
-          strategy="afterInteractive"
-        />
-        <Script id="mautic-pageview" strategy="afterInteractive">
-          {`
-            function sendMauticPageview() {
-              if (typeof mt === "function") {
-                mt("send", "pageview");
-              }
-            }
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+              w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+              m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','/api/mautic/mtc.js','mt');
 
-            if (document.readyState === "complete") {
-              sendMauticPageview();
-            } else {
-              window.addEventListener("load", sendMauticPageview, { once: true });
-            }
-          `}
-        </Script>
+              mt('send', 'pageview');
+            `,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
