@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
+const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
 const siteUrl = "https://liqentech.com";
 const siteName = "LiqenTech";
-const defaultTitle = "LiqenTech | AI SaaS and Intelligent Automation for SMB Growth";
+const defaultTitle = "LiqenTech | AI Systems That Automate Operations and Scale Businesses";
 const defaultDescription =
-  "LiqenTech builds AI-powered SaaS products for growing companies: virtual reception, sales intelligence, workflow automation, and growth systems for SMB teams.";
+  "LiqenTech builds AI-powered systems that automate operations, generate leads, organize knowledge, and eliminate bottlenecks. Built for businesses that want to move faster with fewer people.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -16,20 +20,16 @@ export const metadata: Metadata = {
   description: defaultDescription,
   applicationName: siteName,
   keywords: [
-    "AI SaaS",
-    "AI automation for SMB",
+    "AI automation",
+    "business automation",
     "workflow automation",
-    "AI receptionist",
-    "sales intelligence",
-    "software development",
-    "custom software",
-    "digital systems",
-    "data solutions",
-    "software consulting",
-    "digital marketing",
-    "business consulting",
-    "AEO",
-    "GEO",
+    "lead generation automation",
+    "marketing automation",
+    "AI knowledge hub",
+    "private AI deployment",
+    "system integration",
+    "AI consulting",
+    "business solutions powered by AI",
   ],
   authors: [{ name: "Liqentech" }],
   creator: "Liqentech",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
         url: `${siteUrl}/Asset/LiqenTech-logo-new.png`,
         width: 1200,
         height: 630,
-        alt: "LiqenTech - AI SaaS and Intelligent Automation",
+        alt: "LiqenTech - Business Solutions Powered by AI",
       },
     ],
   },
@@ -79,9 +79,9 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   category: "technology",
@@ -100,7 +100,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       "@type": "ContactPoint",
       contactType: "Sales",
       email: "contact@liqentech.com",
+      telephone: "+353892665691",
       availableLanguage: ["English"],
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Athlone",
+      addressCountry: "IE",
     },
     areaServed: "Worldwide",
     hasOfferCatalog: {
@@ -111,24 +117,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "AI Integration",
-            description: "Deploy practical AI agents, LLMs, and automation into your stack.",
+            name: "Operations Automation",
+            description: "Replace repetitive tasks with intelligent workflows, from customer onboarding to internal processes.",
           },
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Software Development",
-            description: "Robust, maintainable web and platform engineering.",
+            name: "Lead Generation Automation",
+            description: "Automate lead capture, qualification, follow-up, and pipeline management.",
           },
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Digital Marketing",
-            description: "Acquisition with data-backed execution.",
+            name: "Private AI Deployment",
+            description: "Run powerful AI solutions on your own infrastructure with full control, privacy, and security.",
           },
         },
       ],
@@ -153,12 +159,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   };
 
   return (
-    <html lang="en">
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <head>
         <link rel="canonical" href={siteUrl} />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
       </head>
-      <body className="min-h-screen antialiased" suppressHydrationWarning>
+      <body className="min-h-screen font-sans antialiased" suppressHydrationWarning>
         <script
           dangerouslySetInnerHTML={{
             __html: `

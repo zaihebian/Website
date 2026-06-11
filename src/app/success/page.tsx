@@ -1,41 +1,28 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import WaterButton from "@/components/WaterButton";
+import Link from "next/link";
+import ConsultationProvider from "@/components/ConsultationProvider";
+import FluidScene from "@/components/FluidScene";
+import SiteNav from "@/components/SiteNav";
+import SiteFooter from "@/components/SiteFooter";
 
 export default function SuccessPage() {
   return (
-    <>
-      <Navbar />
-      <main className="min-h-screen flex items-center justify-center">
-        <div className="mx-auto max-w-2xl px-4 text-center">
-          <div className="card">
-            <div className="mb-6">
-              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-green-600 mb-4">
-                Thank You!
-              </h1>
-              <p className="text-xl text-slate-700 mb-6">
-                Your enquiry has been successfully submitted.
-              </p>
-              <p className="text-slate-600 mb-8">
-                We have received your message and will get back to you within one business day. 
-                We appreciate your interest in working with LiqenTech.
-              </p>
-            </div>
-            
-            <div className="space-y-4">
-              <WaterButton asLink="/">
-                Return to Home
-              </WaterButton>
-            </div>
+    <ConsultationProvider>
+      <FluidScene />
+      <SiteNav />
+      <main className="flex min-h-[100dvh] items-center justify-center px-4 pt-16 sm:px-6">
+        <div className="glass w-full max-w-xl rounded-3xl p-8 text-center sm:p-12">
+          <h1 className="text-3xl font-semibold tracking-tighter text-[var(--ink)] sm:text-4xl">Thank you</h1>
+          <p className="mt-4 text-lg leading-relaxed text-[var(--ink-dim)]">
+            Your enquiry has been submitted. We will get back to you within one business day.
+          </p>
+          <div className="mt-10">
+            <Link href="/" className="btn-primary">
+              Return to home
+            </Link>
           </div>
         </div>
       </main>
-      <Footer />
-    </>
+      <SiteFooter />
+    </ConsultationProvider>
   );
 }

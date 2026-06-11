@@ -1,17 +1,15 @@
-"use client";
-
-import { useState } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import EarlyAccessModal from "@/components/EarlyAccessModal";
+import ConsultationProvider from "@/components/ConsultationProvider";
+import FluidScene from "@/components/FluidScene";
+import SiteNav from "@/components/SiteNav";
+import SiteFooter from "@/components/SiteFooter";
+import Reveal from "@/components/Reveal";
 
 const roles = [
   {
     title: "Software Engineer (Frontend)",
-    type: "Contract / Remote",
-    location: "Remote",
-    experience: "3+ years",
-    description: "We're looking for a skilled Frontend Engineer to join our team and help build exceptional user experiences. You'll work with modern technologies to create responsive, performant web applications.",
+    tags: ["Contract", "Remote", "3+ years"],
+    description:
+      "We're looking for a skilled Frontend Engineer to join our team and help build exceptional user experiences. You'll work with modern technologies to create responsive, performant web applications.",
     responsibilities: [
       "Develop and maintain React-based web applications",
       "Implement responsive designs using Tailwind CSS",
@@ -19,7 +17,7 @@ const roles = [
       "Collaborate with designers to implement pixel-perfect UIs",
       "Write clean, maintainable, and well-documented code",
       "Participate in code reviews and technical discussions",
-      "Work with modern build tools and development workflows"
+      "Work with modern build tools and development workflows",
     ],
     requirements: [
       "3+ years of experience with React and modern JavaScript/TypeScript",
@@ -29,22 +27,21 @@ const roles = [
       "Experience with version control (Git) and collaborative development",
       "Understanding of web performance optimization techniques",
       "Bonus: Experience with animation libraries (Framer Motion, GSAP)",
-      "Bonus: Knowledge of testing frameworks (Jest, React Testing Library)"
+      "Bonus: Knowledge of testing frameworks (Jest, React Testing Library)",
     ],
     benefits: [
       "Competitive contract rates",
       "Flexible working hours",
       "Remote-first culture",
       "Opportunity to work on diverse projects",
-      "Professional development support"
-    ]
+      "Professional development support",
+    ],
   },
   {
     title: "AI Engineer",
-    type: "Contract / Remote",
-    location: "Remote",
-    experience: "2+ years",
-    description: "Join our AI team to build intelligent features and systems that enhance user experiences. You'll work with cutting-edge AI technologies to solve real-world problems for our clients.",
+    tags: ["Contract", "Remote", "2+ years"],
+    description:
+      "Join our AI team to build intelligent features and systems that enhance user experiences. You'll work with cutting-edge AI technologies to solve real-world problems for our clients.",
     responsibilities: [
       "Design and implement AI-powered features using LLMs and modern AI tools",
       "Develop and deploy AI agents and automation systems",
@@ -52,7 +49,7 @@ const roles = [
       "Evaluate and optimize AI model performance",
       "Research and prototype new AI solutions",
       "Collaborate with frontend teams to implement AI features",
-      "Document AI systems and create technical specifications"
+      "Document AI systems and create technical specifications",
     ],
     requirements: [
       "2+ years of experience with AI/ML technologies",
@@ -62,22 +59,21 @@ const roles = [
       "Understanding of prompt engineering and fine-tuning techniques",
       "Experience with API integration and web services",
       "Bonus: Experience with vector databases and embeddings",
-      "Bonus: Knowledge of AI evaluation and testing methodologies"
+      "Bonus: Knowledge of AI evaluation and testing methodologies",
     ],
     benefits: [
       "Work with cutting-edge AI technologies",
       "Competitive contract rates",
       "Remote work flexibility",
       "Access to latest AI tools and resources",
-      "Opportunity to shape AI product strategy"
-    ]
+      "Opportunity to shape AI product strategy",
+    ],
   },
   {
     title: "Digital Marketing Specialist",
-    type: "Part-time / Remote",
-    location: "Remote",
-    experience: "2+ years",
-    description: "We're seeking a Digital Marketing Specialist to drive our online presence and growth. You'll be responsible for SEO, analytics, content performance, and digital marketing strategies.",
+    tags: ["Part-time", "Remote", "2+ years"],
+    description:
+      "We're seeking a Digital Marketing Specialist to drive our online presence and growth. You'll be responsible for SEO, analytics, content performance, and digital marketing strategies.",
     responsibilities: [
       "Develop and execute SEO strategies to improve organic visibility",
       "Manage and analyze website analytics and performance metrics",
@@ -85,7 +81,7 @@ const roles = [
       "Monitor and report on digital marketing campaign performance",
       "Manage social media presence and engagement",
       "Conduct keyword research and competitive analysis",
-      "Collaborate with development team on technical SEO improvements"
+      "Collaborate with development team on technical SEO improvements",
     ],
     requirements: [
       "2+ years of digital marketing experience",
@@ -95,122 +91,106 @@ const roles = [
       "Proficiency in marketing analytics and reporting",
       "Experience with marketing automation tools",
       "Bonus: Experience with paid advertising (Google Ads, social media ads)",
-      "Bonus: Basic understanding of web development and technical SEO"
+      "Bonus: Basic understanding of web development and technical SEO",
     ],
     benefits: [
       "Flexible part-time schedule",
       "Remote work opportunity",
       "Competitive hourly rates",
       "Autonomy in marketing strategy development",
-      "Opportunity to grow with the company"
-    ]
-  }
+      "Opportunity to grow with the company",
+    ],
+  },
 ];
 
 export default function CareersPage() {
-  const [showEarlyAccess, setShowEarlyAccess] = useState(false);
-
   return (
-    <div className="page-dark text-gray-200 antialiased grid-bg min-h-screen">
-      <Navbar variant="company" onEarlyAccessClick={() => setShowEarlyAccess(true)} />
-      <EarlyAccessModal isOpen={showEarlyAccess} onClose={() => setShowEarlyAccess(false)} />
-      <main className="pt-20 mx-auto max-w-6xl px-4 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">Join LiqenTech</h1>
-          <p className="mt-3 text-gray-300 max-w-2xl mx-auto">
-            We hire thoughtfully and keep teams small. If you love deep work and clean execution, we&apos;d love to hear from you.
+    <ConsultationProvider>
+      <FluidScene />
+      <SiteNav />
+      <main className="mx-auto max-w-5xl px-4 pb-28 pt-36 sm:px-6">
+        <Reveal>
+          <h1 className="text-4xl font-semibold tracking-tighter text-[var(--ink)] sm:text-5xl">Join LiqenTech</h1>
+          <p className="mt-5 max-w-xl text-lg leading-relaxed text-[var(--ink-dim)]">
+            We hire thoughtfully and keep teams small. If you love deep work and clean execution, we&apos;d love to hear
+            from you.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="space-y-8">
+        <div className="mt-16 space-y-6">
           {roles.map((role) => (
-            <div key={role.title} className="rounded-2xl p-8 bg-[#0c0c14]/80 border border-white/10 backdrop-blur-sm">
-              <div className="mb-6">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                  <h2 className="text-2xl font-bold text-white">{role.title}</h2>
-                  <div className="flex flex-wrap gap-2 mt-2 md:mt-0">
-                    <span className="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-sm font-medium border border-cyan-500/30">
-                      {role.type}
-                    </span>
-                    <span className="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm font-medium border border-green-500/30">
-                      {role.location}
-                    </span>
-                    <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm font-medium border border-purple-500/30">
-                      {role.experience}
-                    </span>
+            <Reveal key={role.title}>
+              <article className="glass rounded-3xl p-7 sm:p-10">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                  <h2 className="text-2xl font-semibold tracking-tight text-[var(--ink)]">{role.title}</h2>
+                  <div className="flex flex-wrap gap-2">
+                    {role.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-[var(--line)] bg-white/5 px-3 py-1 text-xs font-medium text-[var(--ink-dim)]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
-                <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                  {role.description}
-                </p>
-              </div>
+                <p className="mt-5 max-w-3xl text-[15px] leading-relaxed text-[var(--ink-dim)]">{role.description}</p>
 
-              <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-4">Key Responsibilities</h3>
-                  <ul className="space-y-2">
-                    {role.responsibilities.map((responsibility, idx) => (
-                      <li key={idx} className="flex items-start space-x-2">
-                        <span className="text-cyan-400 mt-1">•</span>
-                        <span className="text-gray-300">{responsibility}</span>
+                <div className="mt-8 grid gap-10 lg:grid-cols-2">
+                  <div>
+                    <h3 className="text-lg font-semibold tracking-tight text-[var(--ink)]">Key responsibilities</h3>
+                    <ul className="mt-4 space-y-2.5">
+                      {role.responsibilities.map((item) => (
+                        <li key={item} className="text-[15px] leading-relaxed text-[var(--ink-faint)]">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold tracking-tight text-[var(--ink)]">Requirements</h3>
+                    <ul className="mt-4 space-y-2.5">
+                      {role.requirements.map((item) => (
+                        <li key={item} className="text-[15px] leading-relaxed text-[var(--ink-faint)]">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="mt-10 border-t border-[var(--line)] pt-8">
+                  <h3 className="text-lg font-semibold tracking-tight text-[var(--ink)]">What we offer</h3>
+                  <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
+                    {role.benefits.map((item) => (
+                      <li key={item} className="text-[15px] leading-relaxed text-[var(--ink-faint)]">
+                        {item}
                       </li>
                     ))}
                   </ul>
                 </div>
-
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-4">Requirements</h3>
-                  <ul className="space-y-2">
-                    {role.requirements.map((requirement, idx) => (
-                      <li key={idx} className="flex items-start space-x-2">
-                        <span className="text-cyan-400 mt-1">•</span>
-                        <span className="text-gray-300">{requirement}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-white/10">
-                <h3 className="text-xl font-semibold text-white mb-4">What We Offer</h3>
-                <ul className="grid md:grid-cols-2 gap-2">
-                  {role.benefits.map((benefit, idx) => (
-                    <li key={idx} className="flex items-center space-x-2">
-                      <svg className="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span className="text-gray-300">{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+              </article>
+            </Reveal>
           ))}
         </div>
 
-        <div className="mt-16 text-center">
-          <div className="rounded-2xl p-8 max-w-2xl mx-auto bg-[#0c0c14]/80 border border-white/10 backdrop-blur-sm">
-            <h3 className="text-xl font-semibold text-white mb-4">Ready to Join Our Team?</h3>
-            <p className="text-gray-400 mb-6">
-              We&apos;re always looking for talented individuals who share our passion for quality and innovation.
-              Don&apos;t see a role that fits? We&apos;d still love to hear from you.
+        <Reveal className="mt-20">
+          <div className="glass mx-auto max-w-2xl rounded-3xl p-8 text-center sm:p-12">
+            <h2 className="text-2xl font-semibold tracking-tight text-[var(--ink)]">Don&apos;t see a role that fits?</h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-[var(--ink-dim)]">
+              We&apos;re always looking for talented people who care about quality. Send your CV and a brief cover letter
+              to:
             </p>
-            <div className="mb-4">
-              <h4 className="text-lg font-semibold text-white mb-2">How to Apply</h4>
-              <p className="text-gray-400 mb-4">
-                Send your CV and a brief cover letter to:
-              </p>
-              <a
-                href="mailto:careers@liqentech.com"
-                className="text-cyan-400 hover:text-cyan-300 font-medium underline underline-offset-4 text-lg"
-              >
-                careers@liqentech.com
-              </a>
-            </div>
+            <a
+              href="mailto:careers@liqentech.com"
+              className="mt-6 inline-block text-lg font-medium text-[var(--accent)] underline underline-offset-4 transition hover:opacity-80"
+            >
+              careers@liqentech.com
+            </a>
           </div>
-        </div>
+        </Reveal>
       </main>
-      <Footer variant="dark" />
-    </div>
+      <SiteFooter />
+    </ConsultationProvider>
   );
 }
