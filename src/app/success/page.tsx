@@ -3,10 +3,12 @@ import ConsultationProvider from "@/components/ConsultationProvider";
 import FluidScene from "@/components/FluidScene";
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
+import { VisitorTracker } from "@/components/VisitorTracker";
 
 export default function SuccessPage() {
   return (
     <ConsultationProvider>
+      <VisitorTracker />
       <FluidScene />
       <SiteNav />
       <main className="flex min-h-[100dvh] items-center justify-center px-4 pt-16 sm:px-6">
@@ -16,7 +18,7 @@ export default function SuccessPage() {
             Your enquiry has been submitted. We will get back to you within one business day.
           </p>
           <div className="mt-10">
-            <Link href="/" className="btn-primary">
+            <Link href="/" className="btn-primary" data-track-click="success-return-home">
               Return to home
             </Link>
           </div>

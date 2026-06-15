@@ -15,7 +15,11 @@ export default function Statement() {
   const scale = useTransform(scrollYProgress, [0.1, 0.5, 0.9], [0.94, 1, 1.04]);
 
   return (
-    <section ref={ref} className="relative flex min-h-[80dvh] items-center justify-center px-4 sm:px-6">
+    <section
+      ref={ref}
+      className="relative flex min-h-[80dvh] items-center justify-center px-4 sm:px-6"
+      data-track-section="statement"
+    >
       <motion.div
         style={reduceMotion ? undefined : { opacity, scale }}
         className="mx-auto max-w-4xl text-center"

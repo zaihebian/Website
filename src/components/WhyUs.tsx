@@ -21,7 +21,7 @@ const principles = [
 
 export default function WhyUs() {
   return (
-    <section id="why" className="relative scroll-mt-20 px-4 py-28 sm:px-6 lg:py-36">
+    <section id="why" className="relative scroll-mt-20 px-4 py-28 sm:px-6 lg:py-36" data-track-section="why-us">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-5">

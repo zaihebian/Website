@@ -45,6 +45,7 @@ export default function SiteNav() {
               key={link.href}
               href={link.href}
               className="rounded-full px-3 py-1.5 text-sm text-[var(--ink-dim)] transition hover:bg-white/5 hover:text-[var(--ink)] lg:px-4"
+              data-track-click={`nav-${link.label.toLowerCase().replaceAll(" ", "-")}`}
             >
               {link.label}
             </Link>
@@ -52,7 +53,12 @@ export default function SiteNav() {
         </div>
 
         <div className="flex shrink-0 items-center gap-2">
-          <button type="button" onClick={openConsultation} className="btn-primary hidden !px-5 !py-2 text-sm md:inline-flex">
+          <button
+            type="button"
+            onClick={openConsultation}
+            className="btn-primary hidden !px-5 !py-2 text-sm md:inline-flex"
+            data-track-click="nav-consultation-cta"
+          >
             Book a consultation
           </button>
           <button
@@ -76,6 +82,7 @@ export default function SiteNav() {
                 href={link.href}
                 className="rounded-2xl px-4 py-3 text-[15px] text-[var(--ink-dim)] transition hover:bg-white/5 hover:text-[var(--ink)]"
                 onClick={() => setOpen(false)}
+                data-track-click={`mobile-nav-${link.label.toLowerCase().replaceAll(" ", "-")}`}
               >
                 {link.label}
               </Link>
@@ -87,6 +94,7 @@ export default function SiteNav() {
                 setOpen(false);
               }}
               className="btn-primary mt-3 w-full"
+              data-track-click="mobile-nav-consultation-cta"
             >
               Book a consultation
             </button>

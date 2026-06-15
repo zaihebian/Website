@@ -8,7 +8,7 @@ export default function Contact() {
   const { openConsultation } = useConsultation();
 
   return (
-    <section id="contact" className="relative scroll-mt-20 px-4 py-28 sm:px-6 lg:py-36">
+    <section id="contact" className="relative scroll-mt-20 px-4 py-28 sm:px-6 lg:py-36" data-track-section="contact">
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <div className="glass relative overflow-hidden rounded-3xl px-6 py-16 text-center sm:px-12 lg:py-24">
@@ -24,7 +24,7 @@ export default function Contact() {
                 Let&apos;s identify the biggest bottlenecks in your business and automate them.
               </p>
               <div className="mt-10">
-                <button type="button" onClick={openConsultation} className="btn-primary">
+                <button type="button" onClick={openConsultation} className="btn-primary" data-track-click="contact-consultation-cta">
                   Book a consultation
                 </button>
               </div>
@@ -32,11 +32,16 @@ export default function Contact() {
                 <a
                   href="mailto:contact@liqentech.com"
                   className="inline-flex items-center gap-2 transition hover:text-[var(--ink)]"
+                  data-track-click="contact-email"
                 >
                   <Envelope size={16} aria-hidden="true" />
                   contact@liqentech.com
                 </a>
-                <a href="tel:+353892665691" className="inline-flex items-center gap-2 transition hover:text-[var(--ink)]">
+                <a
+                  href="tel:+353892665691"
+                  className="inline-flex items-center gap-2 transition hover:text-[var(--ink)]"
+                  data-track-click="contact-phone"
+                >
                   <Phone size={16} aria-hidden="true" />
                   +353 89 266 5691
                 </a>

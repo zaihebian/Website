@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X } from "@phosphor-icons/react";
+import { getBehaviorSnapshot, trackBehavior } from "@/components/VisitorTracker";
 
 type ConsultationModalProps = {
   isOpen: boolean;
@@ -14,6 +15,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
   const router = useRouter();
   const overlayRef = useRef<HTMLDivElement>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [started, setStarted] = useState(false);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
@@ -30,9 +32,46 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
     };
   }, [isOpen, onClose]);
 
+  const markStarted = () => {
+    if (started) return;
+    setStarted(true);
+    trackBehavior({ type: "form_start", section: "consultation", target: "consultation-modal" });
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
+    const form = new FormData(e.currentTarget);
+    const name = String(form.get("name") ?? "");
+    const email = String(form.get("email") ?? "");
+    const company = String(form.get("company") ?? "");
+    const query = String(form.get("query") ?? "").trim();
+    const snapshot = getBehaviorSnapshot();
+
+    window.mt?.("send", "pageview", {
+      email,
+      firstname: name,
+      company,
+      source: "liqentech",
+      website: "liqentech.com",
+    });
+
+    trackBehavior({
+      type: "form_submit",
+      section: "consultation",
+      target: "consultation-modal",
+      metadata: {
+        ...snapshot,
+        hasQuery: Boolean(query),
+      },
+      contact: {
+        email,
+        name,
+        company,
+        query,
+      },
+    });
+
     router.push("/success");
     onClose();
     setSubmitting(false);
@@ -84,7 +123,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} onFocus={markStarted} className="space-y-4">
               <div className="grid gap-2">
                 <label htmlFor="consult-name" className="text-sm font-medium text-[var(--ink)]">
                   Name

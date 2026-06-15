@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 
-const MAUTIC_ORIGIN = "https://elated-unbutton-scuff.ngrok-free.dev";
-const MAUTIC_HOST = "elated-unbutton-scuff.ngrok-free.dev";
+const MAUTIC_ORIGIN = (process.env.MAUTIC_BASE_URL ?? "https://mautic.liqentech.com").replace(/\/$/, "");
+const MAUTIC_HOST = new URL(MAUTIC_ORIGIN).host;
 
 type RouteContext = {
   params: Promise<{
@@ -16,7 +16,6 @@ async function proxyMauticRequest(request: NextRequest, context: RouteContext) {
   upstreamUrl.search = request.nextUrl.search;
 
   const requestHeaders = new Headers();
-  requestHeaders.set("ngrok-skip-browser-warning", "true");
 
   const forwardedHeaderNames = [
     "accept",

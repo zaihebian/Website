@@ -3,6 +3,7 @@ import FluidScene from "@/components/FluidScene";
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
 import Reveal from "@/components/Reveal";
+import { VisitorTracker } from "@/components/VisitorTracker";
 
 const roles = [
   {
@@ -106,9 +107,10 @@ const roles = [
 export default function CareersPage() {
   return (
     <ConsultationProvider>
+      <VisitorTracker />
       <FluidScene />
       <SiteNav />
-      <main className="mx-auto max-w-5xl px-4 pb-28 pt-36 sm:px-6">
+      <main className="mx-auto max-w-5xl px-4 pb-28 pt-36 sm:px-6" data-track-section="careers">
         <Reveal>
           <h1 className="text-4xl font-semibold tracking-tighter text-[var(--ink)] sm:text-5xl">Join LiqenTech</h1>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-[var(--ink-dim)]">
@@ -184,6 +186,7 @@ export default function CareersPage() {
             <a
               href="mailto:careers@liqentech.com"
               className="mt-6 inline-block text-lg font-medium text-[var(--accent)] underline underline-offset-4 transition hover:opacity-80"
+              data-track-click="careers-email"
             >
               careers@liqentech.com
             </a>

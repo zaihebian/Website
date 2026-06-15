@@ -70,7 +70,7 @@ const systems: System[] = [
 
 export default function Systems() {
   return (
-    <section id="systems" className="relative scroll-mt-20 px-4 py-28 sm:px-6 lg:py-36">
+    <section id="systems" className="relative scroll-mt-20 px-4 py-28 sm:px-6 lg:py-36" data-track-section="systems">
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <h2 className="max-w-2xl text-3xl font-semibold tracking-tighter text-[var(--ink)] sm:text-5xl">

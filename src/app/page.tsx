@@ -7,10 +7,12 @@ import Systems from "@/components/Systems";
 import WhyUs from "@/components/WhyUs";
 import Contact from "@/components/Contact";
 import SiteFooter from "@/components/SiteFooter";
+import { VisitorTracker } from "@/components/VisitorTracker";
 
 export default function HomePage() {
   return (
     <ConsultationProvider>
+      <VisitorTracker />
       <FluidScene />
       <SiteNav />
       <main>

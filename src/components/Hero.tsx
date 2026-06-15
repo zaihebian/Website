@@ -14,7 +14,7 @@ export default function Hero() {
   });
 
   return (
-    <section id="home" className="relative flex min-h-[100dvh] items-center">
+    <section id="home" className="relative flex min-h-[100dvh] items-center" data-track-section="hero">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07090c]/80 via-[#07090c]/30 to-transparent" />
       <div className="relative mx-auto w-full max-w-7xl px-4 pt-16 sm:px-6">
         <div className="max-w-3xl">
@@ -30,10 +30,10 @@ export default function Hero() {
             AI-powered systems that automate operations, generate leads, organize knowledge, and eliminate bottlenecks.
           </motion.p>
           <motion.div {...enter(0.4)} className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <button type="button" onClick={openConsultation} className="btn-primary">
+            <button type="button" onClick={openConsultation} className="btn-primary" data-track-click="hero-consultation-cta">
               Book a consultation
             </button>
-            <a href="#systems" className="btn-secondary">
+            <a href="#systems" className="btn-secondary" data-track-click="hero-systems-link">
               See the systems
             </a>
           </motion.div>
