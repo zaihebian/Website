@@ -24,7 +24,7 @@ const config = {
   minDelay: toNumber(args.minDelay ?? process.env.SIM_MIN_DELAY, defaults.minDelay),
   maxDelay: toNumber(args.maxDelay ?? process.env.SIM_MAX_DELAY, defaults.maxDelay),
   spreadMinutes: toNumber(args.spreadMinutes ?? process.env.SIM_SPREAD_MINUTES, defaults.spreadMinutes, { allowZero: true }),
-  executablePath: args.executablePath ?? process.env.SIM_BROWSER_EXECUTABLE ?? defaults.executablePath,
+  executablePath: args.executablePath ?? args["executable-path"] ?? process.env.SIM_BROWSER_EXECUTABLE ?? defaults.executablePath,
 };
 
 const deviceProfiles = [
