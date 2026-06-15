@@ -8,6 +8,7 @@ const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono"
 
 const siteUrl = "https://liqentech.com";
 const siteName = "LiqenTech";
+const faviconVersion = "20260615-2";
 const defaultTitle = "LiqenTech | AI Systems That Automate Operations and Scale Businesses";
 const defaultDescription =
   "LiqenTech builds AI-powered systems that automate operations, generate leads, organize knowledge, and eliminate bottlenecks. Built for businesses that want to move faster with fewer people.";
@@ -44,12 +45,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/Asset/LiqenTech-Circle-logo.png", sizes: "32x32", type: "image/png" },
-      { url: "/Asset/LiqenTech-Circle-logo.png", sizes: "192x192", type: "image/png" },
-      { url: "/Asset/LiqenTech-Circle-logo.png", sizes: "512x512", type: "image/png" },
+      { url: `/Asset/LiqenTech-Circle-logo.png?v=${faviconVersion}`, sizes: "32x32", type: "image/png" },
+      { url: `/Asset/LiqenTech-Circle-logo.png?v=${faviconVersion}`, sizes: "192x192", type: "image/png" },
+      { url: `/Asset/LiqenTech-Circle-logo.png?v=${faviconVersion}`, sizes: "512x512", type: "image/png" },
     ],
     apple: [
-      { url: "/Asset/LiqenTech-Circle-logo.png", sizes: "180x180", type: "image/png" },
+      { url: `/Asset/LiqenTech-Circle-logo.png?v=${faviconVersion}`, sizes: "180x180", type: "image/png" },
     ],
   },
   openGraph: {
