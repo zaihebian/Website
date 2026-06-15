@@ -47,13 +47,13 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
     const company = String(form.get("company") ?? "");
     const query = String(form.get("query") ?? "").trim();
     const snapshot = getBehaviorSnapshot();
+    const [firstname, ...lastnameParts] = name.trim().split(/\s+/);
 
     window.mt?.("send", "pageview", {
       email,
-      firstname: name,
+      firstname,
+      lastname: lastnameParts.join(" ") || undefined,
       company,
-      source: "liqentech",
-      website: "liqentech.com",
     });
 
     trackBehavior({

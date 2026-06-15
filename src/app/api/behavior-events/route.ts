@@ -7,7 +7,6 @@ import {
   SITE_SOURCE,
   textValue,
 } from "@/lib/behaviorEvents";
-import { syncBehaviorToMautic } from "@/lib/mautic";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -100,21 +99,8 @@ export async function POST(request: NextRequest) {
       ip_hint: ipHint,
     });
 
-    await syncBehaviorToMautic(
-      {
-        email: body.contact.email,
-        name: body.contact.name,
-        company: body.contact.company,
-      },
-      {
-        maxScrollDepth,
-        clickedTargets,
-        viewedSections,
-        hasQuery: Boolean(body.metadata?.hasQuery),
-        utmSource: textValue(body.utm?.source),
-        siteSource: SITE_SOURCE,
-      },
-    );
+    // Mautic contact identity is handled by the browser tracker so it can merge
+    // the current tracked visitor instead of creating a second API-only contact.
   }
 
   return NextResponse.json({ ok: true });

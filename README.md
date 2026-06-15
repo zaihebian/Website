@@ -42,8 +42,6 @@ Required environment variables:
 
 ```bash
 MAUTIC_BASE_URL=https://mautic.liqentech.com
-MAUTIC_USERNAME=
-MAUTIC_PASSWORD=
 SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=
 ```

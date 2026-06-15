@@ -176,10 +176,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
               })(window,document,'script','${mauticBaseUrl}/mtc.js','mt');
 
-              mt('send', 'pageview', {
-                source: 'liqentech',
-                website: 'liqentech.com'
-              });
+              mt('send', 'pageview');
             `,
           }}
         />
