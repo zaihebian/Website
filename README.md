@@ -29,6 +29,7 @@ Useful options:
 ```bash
 npm run simulate:visitors -- --url https://liqentech.com --visitors 100 --concurrency 5
 npm run simulate:visitors -- --url https://liqentech.com --visitors 40 --concurrency 2 --spread-minutes 240
+npm run simulate:visitors -- --url https://liqentech.com --visitors 40 --spread-minutes 240 --submit-forms --lead-rate 25
 npm run simulate:visitors -- --url http://localhost:3000 --visitors 10 --headed
 npm run simulate:visitors -- --submit-forms
 ```
@@ -36,6 +37,8 @@ npm run simulate:visitors -- --submit-forms
 By default the simulator does not submit consultation forms. It opens the modal, fills fields, scrolls, clicks, visits `/careers`, varies devices/referrers/campaigns, and lets the existing tracking script collect the behavior. Add `--submit-forms` only when you intentionally want conversion/success-page traffic.
 
 Use `--spread-minutes` to distribute visitors randomly over a time window. For example, `--visitors 40 --spread-minutes 240` starts 40 visitors at random times over four hours.
+
+Use `--lead-rate` with `--submit-forms` to control the approximate percentage of visitors who submit the consultation form. For example, `--lead-rate 25` means about 25% of visitors become synthetic leads. Traffic from one machine will use that machine's IP address.
 
 ## Mautic And Supabase Behavior Tracking
 

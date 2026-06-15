@@ -10,6 +10,7 @@ const defaults = {
   minDelay: 450,
   maxDelay: 2200,
   spreadMinutes: 0,
+  leadRate: 0,
   executablePath: undefined,
 };
 
@@ -24,6 +25,7 @@ const config = {
   minDelay: toNumber(args.minDelay ?? process.env.SIM_MIN_DELAY, defaults.minDelay),
   maxDelay: toNumber(args.maxDelay ?? process.env.SIM_MAX_DELAY, defaults.maxDelay),
   spreadMinutes: toNumber(args.spreadMinutes ?? process.env.SIM_SPREAD_MINUTES, defaults.spreadMinutes, { allowZero: true }),
+  leadRate: toRate(args.leadRate ?? args["lead-rate"] ?? process.env.SIM_LEAD_RATE, defaults.leadRate),
   executablePath: args.executablePath ?? args["executable-path"] ?? process.env.SIM_BROWSER_EXECUTABLE ?? defaults.executablePath,
 };
 
@@ -72,7 +74,7 @@ const scenarios = [
       await scrollToRatio(page, 0.18);
       await clickByRole(page, "button", /book a consultation/i);
       await fillConsultationForm(page, visitor);
-      if (config.submitForms) {
+      if (visitor.shouldSubmitLead) {
         await clickByRole(page, "button", /send request/i);
         await page.waitForURL(/\/success/, { timeout: 5000 }).catch(() => {});
       } else {
@@ -150,7 +152,8 @@ async function main() {
           error: error.message,
         }));
         results.push(result);
-        const status = result.ok ? "ok" : `failed: ${result.error}`;
+        const leadStatus = result.submittedLead ? " submitted-lead" : "";
+        const status = result.ok ? `ok${leadStatus}` : `failed: ${result.error}`;
         console.log(`[visitor ${visitorNumber}] ${result.scenario ?? "unknown"} ${status}`);
       }
     }),
@@ -164,8 +167,9 @@ async function main() {
 
 async function runVisitor(browser, visitorNumber) {
   const profile = pick(deviceProfiles);
-  const scenario = weightedPick(scenarios);
-  const visitor = createVisitor(visitorNumber, profile, scenario.name);
+  const shouldSubmitLead = config.submitForms && Math.random() < config.leadRate;
+  const scenario = shouldSubmitLead ? scenarioByName("consultation-intent") : weightedPick(scenarios);
+  const visitor = createVisitor(visitorNumber, profile, scenario.name, shouldSubmitLead);
   const context = await browser.newContext({
     ...(profile.device ?? {}),
     viewport: profile.viewport ?? profile.device.viewport,
@@ -187,13 +191,13 @@ async function runVisitor(browser, visitorNumber) {
   try {
     await scenario.run(page, visitor);
     await dwell(900, 2600);
-    return { visitorNumber, scenario: scenario.name, ok: true };
+    return { visitorNumber, scenario: scenario.name, submittedLead: shouldSubmitLead, ok: true };
   } finally {
     await context.close();
   }
 }
 
-function createVisitor(visitorNumber, profile, scenarioName) {
+function createVisitor(visitorNumber, profile, scenarioName, shouldSubmitLead) {
   const id = `sim-${visitorNumber}-${randomUUID().slice(0, 8)}`;
   const company = pick(["Northstar Ops", "Bluepeak Systems", "Aster Labs", "Nexus Retail", "Harbor AI"]);
   return {
@@ -206,6 +210,7 @@ function createVisitor(visitorNumber, profile, scenarioName) {
     company,
     query: `Looking at AI automation and software systems for ${company}.`,
     profileName: profile.name,
+    shouldSubmitLead,
   };
 }
 
@@ -273,6 +278,12 @@ function weightedPick(items) {
   return items.at(-1);
 }
 
+function scenarioByName(name) {
+  const scenario = scenarios.find((item) => item.name === name);
+  if (!scenario) throw new Error(`Unknown scenario: ${name}`);
+  return scenario;
+}
+
 function pick(items) {
   return items[Math.floor(Math.random() * items.length)];
 }
@@ -326,4 +337,11 @@ function toNumber(value, fallback, options = {}) {
   const number = Number(value);
   const minimum = options.allowZero ? 0 : 1;
   return Number.isFinite(number) && number >= minimum ? number : fallback;
+}
+
+function toRate(value, fallback) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return fallback;
+  if (number > 1) return Math.min(number / 100, 1);
+  return Math.max(0, Math.min(number, 1));
 }
