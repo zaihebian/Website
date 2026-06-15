@@ -38,7 +38,23 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
     trackBehavior({ type: "form_start", section: "consultation", target: "consultation-modal" });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const waitForMauticContactSync = (contact: {
+    email: string;
+    firstname?: string;
+    lastname?: string;
+    company?: string;
+  }) =>
+    new Promise<void>((resolve) => {
+      window.mt?.("send", "pageview", contact);
+      window.mt?.("send", "event", {
+        eventCategory: "liqentech_website",
+        eventAction: "form_submit",
+        eventLabel: "consultation-modal",
+      });
+      window.setTimeout(resolve, 1200);
+    });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
     const form = new FormData(e.currentTarget);
@@ -48,13 +64,6 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
     const query = String(form.get("query") ?? "").trim();
     const snapshot = getBehaviorSnapshot();
     const [firstname, ...lastnameParts] = name.trim().split(/\s+/);
-
-    window.mt?.("send", "pageview", {
-      email,
-      firstname,
-      lastname: lastnameParts.join(" ") || undefined,
-      company,
-    });
 
     trackBehavior({
       type: "form_submit",
@@ -70,6 +79,13 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
         company,
         query,
       },
+    });
+
+    await waitForMauticContactSync({
+      email,
+      firstname,
+      lastname: lastnameParts.join(" ") || undefined,
+      company,
     });
 
     router.push("/success");
