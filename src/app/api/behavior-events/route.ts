@@ -7,6 +7,7 @@ import {
   SITE_SOURCE,
   textValue,
 } from "@/lib/behaviorEvents";
+import { updateTrackedMauticContact } from "@/lib/mautic";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -18,6 +19,8 @@ type BehaviorEvent = {
   pageUrl?: string;
   pagePath?: string;
   referrer?: string;
+  mauticContactId?: string;
+  mauticDeviceId?: string;
   section?: string;
   target?: string;
   value?: string | number | boolean;
@@ -66,7 +69,11 @@ export async function POST(request: NextRequest) {
     utm_campaign: textValue(body.utm?.campaign),
     utm_term: textValue(body.utm?.term),
     utm_content: textValue(body.utm?.content),
-    metadata_json: body.metadata ?? null,
+    metadata_json: {
+      ...(body.metadata ?? {}),
+      mauticContactId: textValue(body.mauticContactId),
+      mauticDeviceId: textValue(body.mauticDeviceId),
+    },
     user_agent: userAgent,
     ip_hint: ipHint,
   });
@@ -99,8 +106,13 @@ export async function POST(request: NextRequest) {
       ip_hint: ipHint,
     });
 
-    // Mautic contact identity is handled by the browser tracker so it can merge
-    // the current tracked visitor instead of creating a second API-only contact.
+    await updateTrackedMauticContact(textValue(body.mauticContactId), {
+      email: body.contact.email,
+      name: body.contact.name,
+      company: body.contact.company,
+    }).catch((error) => {
+      console.error("Failed to update tracked Mautic contact", error);
+    });
   }
 
   return NextResponse.json({ ok: true });

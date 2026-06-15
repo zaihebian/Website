@@ -65,7 +65,14 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
     const snapshot = getBehaviorSnapshot();
     const [firstname, ...lastnameParts] = name.trim().split(/\s+/);
 
-    trackBehavior({
+    await waitForMauticContactSync({
+      email,
+      firstname,
+      lastname: lastnameParts.join(" ") || undefined,
+      company,
+    });
+
+    await trackBehavior({
       type: "form_submit",
       section: "consultation",
       target: "consultation-modal",
@@ -79,13 +86,6 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
         company,
         query,
       },
-    });
-
-    await waitForMauticContactSync({
-      email,
-      firstname,
-      lastname: lastnameParts.join(" ") || undefined,
-      company,
     });
 
     router.push("/success");

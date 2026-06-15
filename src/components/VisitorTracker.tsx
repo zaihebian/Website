@@ -16,6 +16,8 @@ type EventPayload = {
   };
 };
 
+type BehaviorEvent = ReturnType<typeof buildEvent>;
+
 type UtmParams = {
   source?: string | null;
   medium?: string | null;
@@ -75,6 +77,8 @@ function buildEvent(payload: EventPayload, visitorId?: string | null, sessionId?
     pageUrl: window.location.href,
     pagePath: window.location.pathname,
     referrer: document.referrer,
+    mauticContactId: window.localStorage.getItem("mtc_id"),
+    mauticDeviceId: window.localStorage.getItem("mautic_device_id"),
     utm: readUtmParams(),
     metadata: {
       siteSource: SITE_SOURCE,
@@ -83,18 +87,20 @@ function buildEvent(payload: EventPayload, visitorId?: string | null, sessionId?
   };
 }
 
-function sendBehavior(event: ReturnType<typeof buildEvent>, useBeacon = false) {
+function sendBehavior(event: BehaviorEvent, useBeacon = false) {
   if (useBeacon && navigator.sendBeacon) {
     navigator.sendBeacon("/api/behavior-events", JSON.stringify(event));
-    return;
+    return Promise.resolve();
   }
 
-  fetch("/api/behavior-events", {
+  return fetch("/api/behavior-events", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(event),
     keepalive: true,
-  }).catch(() => undefined);
+  })
+    .then(() => undefined)
+    .catch(() => undefined);
 }
 
 function sendMauticEvent(payload: EventPayload) {
@@ -208,8 +214,9 @@ export function VisitorTracker() {
 export function trackBehavior(payload: EventPayload) {
   const visitorId = window.localStorage.getItem(`${STORAGE_PREFIX}_visitor_id`);
   const event = buildEvent(payload, visitorId, null);
-  sendBehavior(event);
+  const delivery = sendBehavior(event);
   sendMauticEvent(payload);
+  return delivery;
 }
 
 export function getBehaviorSnapshot() {
