@@ -9,6 +9,8 @@ const defaults = {
   submitForms: false,
   minDelay: 450,
   maxDelay: 2200,
+  spreadMinutes: 0,
+  executablePath: undefined,
 };
 
 const args = parseArgs(process.argv.slice(2));
@@ -21,6 +23,8 @@ const config = {
   submitForms: hasFlag(args, "submit-forms") || process.env.SIM_SUBMIT_FORMS === "1",
   minDelay: toNumber(args.minDelay ?? process.env.SIM_MIN_DELAY, defaults.minDelay),
   maxDelay: toNumber(args.maxDelay ?? process.env.SIM_MAX_DELAY, defaults.maxDelay),
+  spreadMinutes: toNumber(args.spreadMinutes ?? process.env.SIM_SPREAD_MINUTES, defaults.spreadMinutes, { allowZero: true }),
+  executablePath: args.executablePath ?? process.env.SIM_BROWSER_EXECUTABLE ?? defaults.executablePath,
 };
 
 const deviceProfiles = [
@@ -120,17 +124,26 @@ await main();
 async function main() {
   const browser = await chromium.launch({
     headless: config.headless,
+    executablePath: config.executablePath,
     args: ["--enable-unsafe-swiftshader", "--use-angle=swiftshader"],
   });
 
-  const queue = Array.from({ length: config.visitors }, (_, index) => index + 1);
+  const queue = createSchedule(config.visitors, config.spreadMinutes);
   const results = [];
   const workerCount = Math.min(config.concurrency, config.visitors);
+  const startedAt = Date.now();
 
   await Promise.all(
     Array.from({ length: workerCount }, async () => {
       while (queue.length > 0) {
-        const visitorNumber = queue.shift();
+        const scheduled = queue.shift();
+        if (!scheduled) continue;
+        const { visitorNumber, startAtMs } = scheduled;
+        const waitMs = Math.max(0, startAtMs - (Date.now() - startedAt));
+        if (waitMs > 0) {
+          console.log(`[visitor ${visitorNumber}] scheduled in ${formatDelay(waitMs)}`);
+          await sleep(waitMs);
+        }
         const result = await runVisitor(browser, visitorNumber).catch((error) => ({
           visitorNumber,
           ok: false,
@@ -268,6 +281,26 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function createSchedule(visitorCount, spreadMinutes) {
+  const windowMs = spreadMinutes * 60 * 1000;
+
+  return Array.from({ length: visitorCount }, (_, index) => ({
+    visitorNumber: index + 1,
+    startAtMs: windowMs > 0 ? randomInt(0, windowMs) : 0,
+  }))
+    .sort((a, b) => a.startAtMs - b.startAtMs);
+}
+
+function formatDelay(ms) {
+  const seconds = Math.round(ms / 1000);
+  if (seconds < 60) return `${seconds}s`;
+  return `${Math.floor(seconds / 60)}m ${seconds % 60}s`;
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function parseArgs(rawArgs) {
   const parsed = {};
   for (let index = 0; index < rawArgs.length; index += 1) {
@@ -289,7 +322,8 @@ function hasFlag(parsed, flag) {
   return parsed[flag] === true || parsed[flag] === "true";
 }
 
-function toNumber(value, fallback) {
+function toNumber(value, fallback, options = {}) {
   const number = Number(value);
-  return Number.isFinite(number) && number > 0 ? number : fallback;
+  const minimum = options.allowZero ? 0 : 1;
+  return Number.isFinite(number) && number >= minimum ? number : fallback;
 }
