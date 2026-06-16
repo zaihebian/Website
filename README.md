@@ -52,11 +52,15 @@ MAUTIC_USERNAME=
 MAUTIC_PASSWORD=
 SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=
+ANALYTICS_USERNAME=
+ANALYTICS_PASSWORD=
 ```
 
 Create the Supabase tables by running `supabase-liqentech-behavior-events.sql` in the Supabase SQL editor. Events are saved into `liqentech_behavior_events`; consultation submissions are saved into `liqentech_lead_submissions`.
 
 The tracker records `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, and `utm_content` on every event. When there is no campaign URL, events default to the LiqenTech source marker.
+
+The `/analytics` dashboard is protected with Basic Auth. Set `ANALYTICS_USERNAME` and `ANALYTICS_PASSWORD` in deployment before opening it.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
