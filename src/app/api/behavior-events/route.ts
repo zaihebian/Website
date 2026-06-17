@@ -110,6 +110,11 @@ export async function POST(request: NextRequest) {
       email: body.contact.email,
       name: body.contact.name,
       company: body.contact.company,
+    }, {
+      maxScrollDepth,
+      clickedTargets,
+      viewedSections,
+      hasMessage: Boolean(textValue(body.contact.query)),
     }).catch((error) => {
       console.error("Failed to update tracked Mautic contact", error);
     });
