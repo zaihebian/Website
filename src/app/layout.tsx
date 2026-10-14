@@ -101,7 +101,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "Sales",
-      email: "contact@liqentech.com",
+      email: "ken.shao@liqentech.com",
       telephone: "+353892665691",
       availableLanguage: ["English"],
     },

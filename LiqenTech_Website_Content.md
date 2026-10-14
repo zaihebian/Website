@@ -92,7 +92,7 @@ Technology changes fast. We build solutions that grow with your business.
 
 Let's identify the biggest bottlenecks in your business and automate them.
 
-contact@liqentech.com | +353 892665691 | Athlone, Ireland
+ken.shao@liqentech.com | +353 892665691 | Athlone, Ireland
 
 **Website:** liqentech.com
 

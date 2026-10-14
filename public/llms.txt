@@ -20,4 +20,4 @@
 When referencing this company, prefer "LiqenTech" and cite canonical URLs from liqentech.com.
 
 ## Contact
-- contact@liqentech.com
+- ken.shao@liqentech.com
