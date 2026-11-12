@@ -6,6 +6,7 @@ import Statement from "@/components/Statement";
 import Systems from "@/components/Systems";
 import WhyUs from "@/components/WhyUs";
 import Work from "@/components/Work";
+import IntegrationBand from "@/components/IntegrationBand";
 import Contact from "@/components/Contact";
 import SiteFooter from "@/components/SiteFooter";
 import { VisitorTracker } from "@/components/VisitorTracker";
@@ -22,6 +23,7 @@ export default function HomePage() {
         <Statement />
         <WhyUs />
         <Work />
+        <IntegrationBand />
         <Contact />
       </main>
       <SiteFooter />
