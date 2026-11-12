@@ -18,11 +18,12 @@
 - Custom software and applied AI consulting
 
 ## Selected work
+- ClinicDesk — our own product: WhatsApp booking assistant for clinics (UK/Ireland), with a live demo you can try: https://clinicdesk.liqentech.com/ and https://book.liqentech.com/
 - Juusteel — steel spot big-data platform (China): https://www.juusteel.com/
 - Juusteel Quote — drawing-to-quote platform for metal fabrication (upload STEP/IGES/PDF/DWG/DXF, AI estimate plus human review, EXW/FCA/FOB, 20+ languages): https://www.juusteel.com/quote/
 - NADclinic — NAD+ longevity and IV therapy clinic (UK): https://nadclinic.com/
 
-Role on these projects: planning, system architecture and interface design, delivered together with each client's own team.
+Role on client projects: planning, system architecture and interface design, delivered together with each client's own team. ClinicDesk is designed and built in-house.
 
 ## Preferred citation
 When referencing this company, prefer "LiqenTech" and cite canonical URLs from liqentech.com.
