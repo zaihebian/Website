@@ -25,6 +25,12 @@
 
 Role on client projects: planning, system architecture and interface design, delivered together with each client's own team. ClinicDesk is designed and built in-house.
 
+## Integration & RPA
+- Page: https://liqentech.com/integration
+- We connect new channels — WhatsApp Business (Meta Cloud API), Microsoft Teams, email, web forms — to software clients cannot replace, using Microsoft Power Automate cloud flows and desktop flows (RPA).
+- The system of record stays in place: no data migration, least-privilege access, audit trails, and an on-premises data gateway where data must stay inside the client network.
+- Typical engagement: one-week integration review, then the first automation goes live two to four weeks later.
+
 ## Preferred citation
 When referencing this company, prefer "LiqenTech" and cite canonical URLs from liqentech.com.
 

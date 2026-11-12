@@ -33,6 +33,7 @@ Supabase is not configured. See `DEPLOYMENT.md` for the full variable list.
 | `/` | Marketing page: hero, systems, statement, why-us, contact |
 | `/careers` | Open roles with `JobPosting` structured data |
 | `/success` | Post-submission confirmation (noindex) |
+| `/integration` | Integration & RPA landing page (Power Automate, WhatsApp Cloud API, legacy systems) |
 | `/privacy` | Privacy policy (data collected, retention, rights) |
 | `/analytics` | Visitor dashboard, Basic Auth via `ANALYTICS_*` |
 | `/admin` | Lead maintenance backend, Basic Auth via `ANALYTICS_*` (see below) |
