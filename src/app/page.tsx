@@ -1,5 +1,5 @@
 import ConsultationProvider from "@/components/ConsultationProvider";
-import FluidScene from "@/components/FluidScene";
+import BackgroundScene from "@/components/BackgroundScene";
 import SiteNav from "@/components/SiteNav";
 import Hero from "@/components/Hero";
 import Statement from "@/components/Statement";
@@ -13,7 +13,7 @@ export default function HomePage() {
   return (
     <ConsultationProvider>
       <VisitorTracker />
-      <FluidScene />
+      <BackgroundScene />
       <SiteNav />
       <main>
         <Hero />

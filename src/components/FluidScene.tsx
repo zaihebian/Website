@@ -77,36 +77,43 @@ const fragmentShader = /* glsl */ `
     float filament = pow(1.0 - bands, 20.0);
     float glow = pow(1.0 - bands, 4.0);
 
-    vec3 graphite = vec3(0.024, 0.028, 0.036);
-    vec3 charcoal = vec3(0.055, 0.064, 0.080);
-    vec3 silver = vec3(0.60, 0.66, 0.72);
-    vec3 aqua = vec3(0.30, 0.56, 0.70);
+    // Light water: paper field, cool mist variation, steel currents.
+    vec3 paper = vec3(0.976, 0.984, 0.988);
+    vec3 mist = vec3(0.904, 0.930, 0.944);
+    vec3 steel = vec3(0.30, 0.41, 0.49);
+    vec3 aqua = vec3(0.12, 0.48, 0.62);
 
-    vec3 col = mix(graphite, charcoal, smoothstep(0.20, 0.85, far));
+    vec3 col = mix(paper, mist, smoothstep(0.20, 0.85, far));
 
     // Volumetric aqua shading in the denser regions of the field.
-    col += aqua * 0.085 * smoothstep(0.45, 0.85, v) * (0.65 + 0.35 * sin(depth * 0.8));
+    col = mix(col, aqua, 0.075 * smoothstep(0.45, 0.85, v) * (0.65 + 0.35 * sin(depth * 0.8)));
 
     // Soft halo around the currents.
-    col += aqua * glow * 0.085;
+    col = mix(col, aqua, glow * 0.07);
 
-    // Silver filaments with restrained iridescence.
+    // Steel filaments with restrained iridescence: the currents read as
+    // shadowed lines on paper rather than glowing lines on graphite.
     vec3 irid = 0.5 + 0.5 * cos(6.2831 * (v * 0.8 + depth * 0.12) + vec3(0.0, 0.6, 1.2));
-    col += mix(silver, irid, 0.32) * filament * 0.34;
+    col = mix(col, mix(steel, irid * 0.5 + 0.3, 0.28), filament * 0.3);
 
     // The environment evolves subtly between sections.
-    col *= 0.94 + 0.08 * sin(uScroll * 4.7 + 1.2);
+    col *= 0.997 + 0.008 * sin(uScroll * 4.7 + 1.2);
 
-    float vig = clamp(1.0 - dot(p, p) * 0.5, 0.0, 1.0);
-    col *= vig;
+    float vig = clamp(1.0 - dot(p, p) * 0.34, 0.0, 1.0);
+    col = mix(vec3(0.918, 0.933, 0.941), col, vig);
 
-    // Fine grain to defeat banding in the deep gradients.
+    // Fine grain to defeat banding in the light gradients.
     float g = hash(vec3(gl_FragCoord.xy, mod(uTime, 64.0)));
-    col += (g - 0.5) * 0.022;
+    col += (g - 0.5) * 0.012;
 
     gl_FragColor = vec4(col, 1.0);
   }
 `;
+
+const FALLBACK_BACKGROUND =
+  "radial-gradient(120% 90% at 20% 0%, #ffffff 0%, #f2f6f8 55%, #e9eef1 100%)";
+
+let warnedAboutMissingWebGL = false;
 
 export default function FluidScene() {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -118,7 +125,20 @@ export default function FluidScene() {
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false, powerPreference: "high-performance" });
+    // WebGL is optional: enterprise policies, old GPUs, remote desktops and VMs can
+    // refuse a context. Throwing here used to unmount the whole page (white screen),
+    // so degrade to a static gradient instead.
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false, powerPreference: "high-performance" });
+    } catch (error) {
+      mount.style.background = FALLBACK_BACKGROUND;
+      if (!warnedAboutMissingWebGL) {
+        warnedAboutMissingWebGL = true;
+        console.warn("[FluidScene] WebGL unavailable, using the static background", error);
+      }
+      return;
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.6));
     renderer.setSize(window.innerWidth, window.innerHeight);
     mount.appendChild(renderer.domElement);
@@ -153,6 +173,16 @@ export default function FluidScene() {
     let raf = 0;
     let running = true;
     const clock = new THREE.Clock();
+
+    // A lost context (driver reset, GPU switch, tab suspended too long) must not
+    // leave a black or frozen layer behind.
+    const onContextLost = (event: Event) => {
+      event.preventDefault();
+      running = false;
+      cancelAnimationFrame(raf);
+      mount.style.background = FALLBACK_BACKGROUND;
+    };
+    renderer.domElement.addEventListener("webglcontextlost", onContextLost, false);
 
     const frame = () => {
       if (!running) return;
@@ -199,10 +229,11 @@ export default function FluidScene() {
       window.removeEventListener("resize", onResize);
       window.removeEventListener("pointermove", onPointerMove);
       document.removeEventListener("visibilitychange", onVisibility);
+      renderer.domElement.removeEventListener("webglcontextlost", onContextLost);
       mesh.geometry.dispose();
       material.dispose();
       renderer.dispose();
-      mount.removeChild(renderer.domElement);
+      if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement);
     };
   }, [scrollYProgress]);
 

@@ -18,11 +18,14 @@ export function useConsultation() {
 export default function ConsultationProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const openConsultation = useCallback(() => setOpen(true), []);
+  const closeConsultation = useCallback(() => setOpen(false), []);
 
   return (
     <ConsultationContext.Provider value={{ openConsultation }}>
-      {children}
-      <ConsultationModal isOpen={open} onClose={() => setOpen(false)} />
+      {/* The page behind the dialog is inert while it is open, so keyboard and
+          assistive tech cannot wander into the background. */}
+      <div inert={open}>{children}</div>
+      <ConsultationModal isOpen={open} onClose={closeConsultation} />
     </ConsultationContext.Provider>
   );
 }

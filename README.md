@@ -1,82 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LiqenTech website
 
-## Getting Started
+Marketing site for LiqenTech (Athlone, Ireland): a Next.js 15 App Router project with
+a WebGL water-ripple background, a consultation form, a Mautic-integrated lead
+pipeline, and a self-hosted analytics dashboard.
 
-First, run the development server:
+## Stack
+
+- Next.js 15.5 (App Router, Turbopack builds) · React 19 · TypeScript
+- Tailwind v4 with a light "water" theme (`src/app/globals.css`)
+- three.js shader background (`src/components/FluidScene.tsx`, loaded lazily)
+- framer-motion for entrance/reveal animations
+- Supabase (behaviour events + leads) and Mautic (contacts, tags, lead scoring)
+
+## Local development
 
 ```bash
+npm ci
+cp .env.example .env.local   # optional: the site runs without credentials, degraded
+npm run build && npm run start   # http://localhost:3000
+# or
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Without credentials: tracking events return `stored:false`, the consultation form
+shows an honest error instead of a fake success page, and `/analytics` reports that
+Supabase is not configured. See `DEPLOYMENT.md` for the full variable list.
 
-## Synthetic Visitor Simulation
+## Routes
 
-Use the Playwright visitor simulator to generate realistic browsing sessions that your tracking script can record.
+| Route | Purpose |
+|---|---|
+| `/` | Marketing page: hero, systems, statement, why-us, contact |
+| `/careers` | Open roles with `JobPosting` structured data |
+| `/success` | Post-submission confirmation (noindex) |
+| `/privacy` | Privacy policy (data collected, retention, rights) |
+| `/analytics` | Visitor dashboard, Basic Auth via `ANALYTICS_*` |
+| `/admin` | Lead maintenance backend, Basic Auth via `ANALYTICS_*` (see below) |
+| `/api/behavior-events` | Public tracking endpoint (rate limited, sanitised) |
+| `/api/mautic/[...path]` | Same-origin proxy for `mtc.js` / `mtc/event` / tracking pixel |
+| `/api/health` | Secrets-free readiness probe |
+
+## Admin backend
+
+`/admin` is a small internal CRM for the records the tracking pipeline produces —
+no separate login: it reuses the `/analytics` Basic Auth credentials.
+
+| Page | What it does |
+|---|---|
+| `/admin` | Lead list with search (email/name/company), status filter, 7/30/90-day window, pagination, and summary cards (leads/open/new/won) |
+| `/admin/leads/<id>` | Full enquiry, tracking attributes, behaviour timeline for the visitor, status + internal notes form, Mautic snapshot (sync status, contact id, points, tags), and a delete action that also removes the visitor's behaviour rows (GDPR erasure) |
+| `/admin/events` | Raw event stream with type/window filters and pagination |
+| `/admin/export` | CSV of the current lead filter selection (≤5000 rows) |
+
+Writes go through server actions that verify the request Origin before touching data.
+Mautic itself is not queried by the admin: every submission stores a snapshot of what
+was (or would be) sent to Mautic, so the backend stays useful while the marketing host
+is unreachable.
+
+Two SQL files are required: `supabase-liqentech-behavior-events.sql` (base tables) and
+`supabase-liqentech-admin.sql` (status/notes/updated_at/mautic_* columns, constraints
+and indexes).
+
+## Tracking pipeline
+
+`VisitorTracker` posts behaviour events (page views, scroll milestones, section
+views, clicks) to `/api/behavior-events`. The route writes to Supabase and, for form
+submissions, syncs the contact to Mautic — three independent sinks with an honest
+failure contract (see `MAUTIC_TRACKING_SETUP.md` and `DEPLOYMENT.md`).
+
+A consultation submission is only treated as delivered when at least one sink
+accepted it; otherwise the modal keeps the visitor's input and offers a retry.
+
+## Synthetic traffic
+
+`scripts/simulate-visitors.mjs` drives a headless browser through realistic journeys
+(scrolls, clicks, optional form submissions). It targets `http://localhost:3000` by
+default; remote targets require an explicit `--allow-production` and are marked as
+synthetic so the dashboard can hide them.
 
 ```bash
-npm run simulate:visitors
+npm run simulate:visitors -- --visitors 5
+npm run simulate:visitors -- --visitors 5 --headed
+npm run simulate:visitors -- --url https://liqentech.com --visitors 20 --allow-production
 ```
 
-Useful options:
+## Verification
+
+End-to-end suites live in `shots/scripts` (outside the repo tree, gitignored) and are
+wired as npm scripts:
 
 ```bash
-npm run simulate:visitors -- --url https://liqentech.com --visitors 100 --concurrency 5
-npm run simulate:visitors -- --url https://liqentech.com --visitors 40 --concurrency 2 --spread-minutes 240
-npm run simulate:visitors -- --url https://liqentech.com --visitors 40 --spread-minutes 240 --submit-forms --lead-rate 25
-npm run simulate:visitors -- --url http://localhost:3000 --visitors 10 --headed
-npm run simulate:visitors -- --submit-forms
+npm test                   # 42 unit tests (Vitest): scoring, payload sanitising, delivery, storage
+npm run verify:api         # 25 assertions: sink matrix, idempotency, duplicates
+npm run verify:ui          # 14 assertions: honest failure + success paths (Playwright)
+npm run verify:hardening   # 24 assertions: rate limits, origin, headers, privacy
+npm run verify:batch4      # 11 assertions: nav a11y, asset weights
+npm run verify:tracking    # session reuse + time-on-page flush
+npm run verify:webgl       # WebGL-disabled fallback
+npm run verify:admin       # 18 assertions: admin auth, list/search, edit, delete, CSV
+npm run check:supabase     # 9 checks against a REAL Supabase project (self-cleaning round-trip)
+npm run db:apply -- supabase-liqentech-admin.sql   # apply a SQL migration via DATABASE_URL (no psql needed)
+node scripts/setup-staging.mjs --org <id>   # create the staging project + run SQL + write .env.local (needs SUPABASE_ACCESS_TOKEN)
+npm run check:deployment -- --base https://<url>   # 13 post-deploy smoke checks (health, headers, auth, Mautic)
 ```
 
-By default the simulator does not submit consultation forms. It opens the modal, fills fields, scrolls, clicks, visits `/careers`, varies devices/referrers/campaigns, and lets the existing tracking script collect the behavior. Add `--submit-forms` only when you intentionally want conversion/success-page traffic.
+They expect the local fleet described in `shots/scripts/verify-env.ps1` (mock Mautic
+on 4010, mock Supabase on 4020, app instances on 3000–3004).
 
-Use `--spread-minutes` to distribute visitors randomly over a time window. For example, `--visitors 40 --spread-minutes 240` starts 40 visitors at random times over four hours.
+## Deployment
 
-Use `--lead-rate` with `--submit-forms` to control the approximate percentage of visitors who submit the consultation form. For example, `--lead-rate 25` means about 25% of visitors become synthetic leads. Traffic from one machine will use that machine's IP address.
-
-## Mautic And Supabase Behavior Tracking
-
-This site uses the same shared Mautic server pattern as ClinicFlow, with LiqenTech-specific source markers.
-
-Required environment variables:
-
-```bash
-MAUTIC_BASE_URL=https://mautic.liqentech.com
-MAUTIC_USERNAME=
-MAUTIC_PASSWORD=
-SUPABASE_URL=
-SUPABASE_SERVICE_ROLE_KEY=
-ANALYTICS_USERNAME=
-ANALYTICS_PASSWORD=
-```
-
-Create the Supabase tables by running `supabase-liqentech-behavior-events.sql` in the Supabase SQL editor. Events are saved into `liqentech_behavior_events`; consultation submissions are saved into `liqentech_lead_submissions`.
-
-The tracker records `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, and `utm_content` on every event. When there is no campaign URL, events default to the LiqenTech source marker.
-
-The `/analytics` dashboard is protected with Basic Auth. Set `ANALYTICS_USERNAME` and `ANALYTICS_PASSWORD` in deployment before opening it.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `DEPLOYMENT.md`. Health check: `GET /api/health`.
+Staging without Docker is documented in `DEPLOYMENT.md` §7 (dedicated staging project +
+`npm run check:supabase`); the production project is for smoke checks only. Using the cloud database from a local machine is documented in `DEPLOYMENT.md` §8 (synthetic rows are hidden in `/admin`, and `SUPABASE_ENV_LABEL` shows which database you are on).

@@ -15,7 +15,7 @@ export default function Hero() {
 
   return (
     <section id="home" className="relative flex min-h-[100dvh] items-center" data-track-section="hero">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07090c]/80 via-[#07090c]/30 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white/78 via-white/32 to-transparent" />
       <div className="relative mx-auto w-full max-w-7xl px-4 pt-16 sm:px-6">
         <div className="max-w-3xl">
           <motion.h1

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Careers",
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
     title: "Careers at LiqenTech",
     description:
       "Explore open roles at LiqenTech across frontend engineering, AI engineering, and growth marketing.",
-    url: "https://liqentech.com/careers",
+    url: `${SITE_URL}/careers`,
     type: "website",
   },
   twitter: {

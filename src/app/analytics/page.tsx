@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import {
   BEHAVIOR_EVENTS_TABLE,
+  DASHBOARD_WINDOWS,
   getDashboardData,
   isBehaviorDbConfigured,
   type BehaviorEventRow,
@@ -11,11 +12,15 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function AnalyticsPage() {
+type AnalyticsPageProps = {
+  searchParams: Promise<{ days?: string | string[] }>;
+};
+
+export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps) {
   if (!isBehaviorDbConfigured()) {
     return (
-      <main className="min-h-screen bg-[#07090c] px-4 py-10 text-[var(--ink)] sm:px-6">
-        <div className="mx-auto max-w-4xl rounded-2xl border border-[var(--line)] bg-white/[0.04] p-8">
+      <main className="min-h-screen bg-[var(--bg)] px-4 py-10 text-[var(--ink)] sm:px-6">
+        <div className="mx-auto max-w-4xl rounded-2xl border border-[var(--line)] bg-white/70 p-8">
           <p className="text-sm uppercase tracking-[0.18em] text-[var(--accent)]">Analytics</p>
           <h1 className="mt-4 text-3xl font-semibold tracking-tight">Supabase is not configured</h1>
           <p className="mt-3 text-[var(--ink-dim)]">
@@ -26,23 +31,55 @@ export default async function AnalyticsPage() {
     );
   }
 
-  const data = await getDashboardData();
+  const params = await searchParams;
+  const requestedDays = Number(Array.isArray(params.days) ? params.days[0] : params.days);
+  const days = (DASHBOARD_WINDOWS as readonly number[]).includes(requestedDays) ? requestedDays : 30;
+
+  let data: Awaited<ReturnType<typeof getDashboardData>>;
+  try {
+    data = await getDashboardData(days);
+  } catch (error) {
+    console.error("[analytics] failed to load dashboard data", error);
+    return <DashboardUnavailable message={error instanceof Error ? error.message : "Unknown Supabase error"} />;
+  }
   const insights = buildInsights(data);
 
   return (
-    <main className="min-h-screen bg-[#07090c] px-4 py-8 text-[var(--ink)] sm:px-6 lg:py-10">
+    <main className="min-h-screen bg-[var(--bg)] px-4 py-8 text-[var(--ink)] sm:px-6 lg:py-10">
       <div className="mx-auto max-w-7xl">
         <header className="flex flex-col gap-6 border-b border-[var(--line)] pb-8 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--accent)]">LiqenTech Analytics</p>
             <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">Visitor behavior dashboard</h1>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--ink-dim)]">
-              Live analysis from `{BEHAVIOR_EVENTS_TABLE}` with source attribution, funnel signals, and lead intent.
+              Live analysis from `{BEHAVIOR_EVENTS_TABLE}` for the last {days} days, with source attribution, funnel
+              signals, and lead intent.
             </p>
+            {data.syntheticHidden > 0 ? (
+              <p className="mt-2 text-xs text-[var(--ink-faint)]">
+                {data.syntheticHidden} synthetic rows from the visitor simulator are hidden.
+              </p>
+            ) : null}
           </div>
-          <Link href="/" className="btn-secondary w-fit">
-            Back to site
-          </Link>
+          <div className="flex flex-wrap items-center gap-2">
+            {DASHBOARD_WINDOWS.map((window) => (
+              <Link
+                key={window}
+                href={`/analytics?days=${window}`}
+                aria-current={window === days ? "page" : undefined}
+                className={
+                  window === days
+                    ? "rounded-full bg-[var(--ink)] px-4 py-2 text-sm font-medium text-[#f8fafb]"
+                    : "rounded-full border border-[var(--line)] px-4 py-2 text-sm text-[var(--ink-dim)] transition hover:text-[var(--ink)]"
+                }
+              >
+                {window}d
+              </Link>
+            ))}
+            <Link href="/" className="btn-secondary w-fit">
+              Back to site
+            </Link>
+          </div>
         </header>
 
         <section className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -59,7 +96,7 @@ export default async function AnalyticsPage() {
           <Panel title="Insights" subtitle="Automatic readout from current data">
             <div className="space-y-3">
               {insights.map((insight) => (
-                <div key={insight} className="rounded-xl border border-[var(--line)] bg-white/[0.035] p-4 text-sm leading-6 text-[var(--ink-dim)]">
+                <div key={insight} className="rounded-xl border border-[var(--line)] bg-white/60 p-4 text-sm leading-6 text-[var(--ink-dim)]">
                   {insight}
                 </div>
               ))}
@@ -104,9 +141,30 @@ export default async function AnalyticsPage() {
   );
 }
 
+function DashboardUnavailable({ message }: { message: string }) {
+  return (
+    <main className="min-h-screen bg-[var(--bg)] px-4 py-10 text-[var(--ink)] sm:px-6">
+      <div className="mx-auto max-w-4xl rounded-2xl border border-[rgba(178,52,52,0.28)] bg-[rgba(214,74,74,0.06)] p-8">
+        <p className="text-sm uppercase tracking-[0.18em] text-[rgba(122,28,28,0.9)]">Analytics</p>
+        <h1 className="mt-4 text-3xl font-semibold tracking-tight">The data source is unavailable</h1>
+        <p className="mt-3 text-[var(--ink-dim)]">
+          Supabase is configured but the query failed. Check the project status, the API URL and the service role key,
+          then reload this page.
+        </p>
+        <pre className="mt-4 overflow-auto rounded-xl bg-[rgba(10,13,17,0.05)] p-4 text-xs leading-6 text-[var(--ink-dim)]">
+          {message.slice(0, 300)}
+        </pre>
+        <Link href="/" className="btn-secondary mt-6 w-fit">
+          Back to site
+        </Link>
+      </div>
+    </main>
+  );
+}
+
 function Metric({ label, value, helper, accent = false }: { label: string; value: number | string; helper: string; accent?: boolean }) {
   return (
-    <article className="rounded-2xl border border-[var(--line)] bg-white/[0.045] p-5">
+    <article className="rounded-2xl border border-[var(--line)] bg-white/70 p-5">
       <p className="text-xs font-medium uppercase tracking-[0.16em] text-[var(--ink-faint)]">{label}</p>
       <p className={`mt-4 text-3xl font-semibold tracking-tight ${accent ? "text-[var(--accent)]" : "text-[var(--ink)]"}`}>
         {typeof value === "number" ? value.toLocaleString() : value}
@@ -118,7 +176,7 @@ function Metric({ label, value, helper, accent = false }: { label: string; value
 
 function Panel({ title, subtitle, children }: { title: string; subtitle: string; children: ReactNode }) {
   return (
-    <section className="rounded-2xl border border-[var(--line)] bg-white/[0.035] p-5">
+    <section className="rounded-2xl border border-[var(--line)] bg-white/60 p-5">
       <div className="mb-5">
         <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
         <p className="mt-1 text-sm text-[var(--ink-faint)]">{subtitle}</p>
@@ -139,7 +197,7 @@ function BarList({ rows, empty = "No data yet" }: { rows: CountRow[]; empty?: st
             <span className="min-w-0 truncate text-[var(--ink-dim)]">{cleanLabel(row.label)}</span>
             <strong className="text-[var(--ink)]">{row.count.toLocaleString()}</strong>
           </div>
-          <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/[0.06]">
+          <div className="mt-2 h-2 overflow-hidden rounded-full bg-[rgba(10,13,17,0.08)]">
             <div className="h-full rounded-full bg-[var(--accent)]" style={{ width: `${Math.max(6, (row.count / max) * 100)}%` }} />
           </div>
         </div>
@@ -163,8 +221,8 @@ function Timeline({ events, leads }: { events: CountRow[]; leads: CountRow[] }) 
         const leadCount = leadMap.get(date) ?? 0;
         return (
           <div key={date} className="flex min-w-0 flex-1 flex-col items-center gap-2">
-            <div className="flex h-44 w-full items-end justify-center gap-1 rounded-xl bg-white/[0.025] px-1 py-2">
-              <div className="w-3 rounded-t-full bg-white/35" style={{ height: `${Math.max(4, (eventCount / max) * 100)}%` }} title={`${eventCount} events`} />
+            <div className="flex h-44 w-full items-end justify-center gap-1 rounded-xl bg-[rgba(10,13,17,0.03)] px-1 py-2">
+              <div className="w-3 rounded-t-full bg-[rgba(10,13,17,0.28)]" style={{ height: `${Math.max(4, (eventCount / max) * 100)}%` }} title={`${eventCount} events`} />
               <div className="w-3 rounded-t-full bg-[var(--accent)]" style={{ height: `${Math.max(4, (leadCount / max) * 100)}%` }} title={`${leadCount} leads`} />
             </div>
             <span className="w-full truncate text-center text-[10px] text-[var(--ink-faint)]">{date.slice(5)}</span>
@@ -180,7 +238,7 @@ function LeadTable({ rows }: { rows: LeadSubmissionRow[] }) {
   return (
     <div className="max-h-[34rem] overflow-auto">
       <table className="w-full min-w-[42rem] text-left text-sm">
-        <thead className="sticky top-0 bg-[#0b0e12] text-xs uppercase tracking-[0.14em] text-[var(--ink-faint)]">
+        <thead className="sticky top-0 bg-white text-xs uppercase tracking-[0.14em] text-[var(--ink-faint)]">
           <tr>
             <th className="py-3 pr-4">Lead</th>
             <th className="py-3 pr-4">Company</th>
@@ -213,7 +271,7 @@ function EventTable({ rows }: { rows: BehaviorEventRow[] }) {
   return (
     <div className="max-h-[34rem] overflow-auto">
       <table className="w-full min-w-[44rem] text-left text-sm">
-        <thead className="sticky top-0 bg-[#0b0e12] text-xs uppercase tracking-[0.14em] text-[var(--ink-faint)]">
+        <thead className="sticky top-0 bg-white text-xs uppercase tracking-[0.14em] text-[var(--ink-faint)]">
           <tr>
             <th className="py-3 pr-4">Event</th>
             <th className="py-3 pr-4">Page</th>

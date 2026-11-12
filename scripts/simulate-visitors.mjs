@@ -2,7 +2,9 @@ import { chromium, devices } from "playwright";
 import { randomUUID } from "node:crypto";
 
 const defaults = {
-  url: "https://liqentech.com",
+  // Local by default: running this against production writes real rows and real
+  // Mautic contacts, which is why remote targets need an explicit opt-in.
+  url: "http://localhost:3000",
   visitors: 25,
   concurrency: 3,
   headless: true,
@@ -27,7 +29,26 @@ const config = {
   spreadMinutes: toNumber(args.spreadMinutes ?? process.env.SIM_SPREAD_MINUTES, defaults.spreadMinutes, { allowZero: true }),
   leadRate: toRate(args.leadRate ?? args["lead-rate"] ?? process.env.SIM_LEAD_RATE, defaults.leadRate),
   executablePath: args.executablePath ?? args["executable-path"] ?? process.env.SIM_BROWSER_EXECUTABLE ?? defaults.executablePath,
+  allowProduction: hasFlag(args, "allow-production") || process.env.SIM_ALLOW_PRODUCTION === "1",
 };
+
+const LOCAL_HOSTNAMES = new Set(["localhost", "127.0.0.1", "0.0.0.0", "::1"]);
+const target = new URL(config.url);
+if (!LOCAL_HOSTNAMES.has(target.hostname) && !config.allowProduction) {
+  console.error(
+    [
+      `Refusing to simulate traffic against ${config.url}.`,
+      "",
+      "Remote targets write real behaviour events, real leads and real Mautic contacts.",
+      "If you really want to rehearse against production, re-run with:",
+      "",
+      "  npm run simulate:visitors -- --url " + config.url + " --allow-production",
+      "",
+      "Prefer a local instance: npm run start, then the default URL http://localhost:3000.",
+    ].join("\n"),
+  );
+  process.exit(1);
+}
 
 const deviceProfiles = [
   { name: "Desktop Chrome", viewport: { width: 1440, height: 900 }, locale: "en-US", timezoneId: "America/New_York" },

@@ -1,0 +1,28 @@
+name: quality
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  # The end-to-end tracking suites live in shots/scripts, which is gitignored and
+  # Windows/Edge oriented (they need the mock fleet from
+  # shots/scripts/verify-env.ps1). Run them locally after starting the fleet:
+  #   npm run verify:api && npm run verify:ui && npm run verify:hardening
+  #   npm run verify:batch4 && npm run verify:tracking && npm run verify:webgl
+  # See shots/FIX-GUIDE.md (C6).

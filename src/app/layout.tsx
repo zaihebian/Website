@@ -1,17 +1,22 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
+import { CONTACT_EMAIL, CONTACT_PHONE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
-const siteUrl = "https://liqentech.com";
+const siteUrl = SITE_URL;
 const siteName = "LiqenTech";
-const faviconVersion = "20260615-2";
 const defaultTitle = "LiqenTech | AI Systems That Automate Operations and Scale Businesses";
 const defaultDescription =
   "LiqenTech builds AI-powered systems that automate operations, generate leads, organize knowledge, and eliminate bottlenecks. Built for businesses that want to move faster with fewer people.";
+
+export const viewport: Viewport = {
+  themeColor: "#f7f9fa",
+  colorScheme: "light",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -43,16 +48,7 @@ export const metadata: Metadata = {
       "en-US": "/",
     },
   },
-  icons: {
-    icon: [
-      { url: `/Asset/LiqenTech-Circle-logo.png?v=${faviconVersion}`, sizes: "32x32", type: "image/png" },
-      { url: `/Asset/LiqenTech-Circle-logo.png?v=${faviconVersion}`, sizes: "192x192", type: "image/png" },
-      { url: `/Asset/LiqenTech-Circle-logo.png?v=${faviconVersion}`, sizes: "512x512", type: "image/png" },
-    ],
-    apple: [
-      { url: `/Asset/LiqenTech-Circle-logo.png?v=${faviconVersion}`, sizes: "180x180", type: "image/png" },
-    ],
-  },
+  // Icons come from the app/icon.png + app/apple-icon.png file conventions.
   openGraph: {
     title: defaultTitle,
     description: defaultDescription,
@@ -62,7 +58,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: `${siteUrl}/Asset/LiqenTech-logo-new.png`,
+        url: `${siteUrl}/Asset/og-liqentech.png`,
         width: 1200,
         height: 630,
         alt: "LiqenTech - Business Solutions Powered by AI",
@@ -73,7 +69,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: defaultTitle,
     description: defaultDescription,
-    images: [`${siteUrl}/Asset/LiqenTech-logo-new.png`],
+    images: [`${siteUrl}/Asset/og-liqentech.png`],
   },
   robots: {
     index: true,
@@ -95,14 +91,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     "@type": "Organization",
     name: "Liqentech",
     url: siteUrl,
-    logo: `${siteUrl}/Asset/LiqenTech-logo-new.png`,
+    logo: `${siteUrl}/Asset/logo-512.png`,
     description: defaultDescription,
     sameAs: [],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "Sales",
-      email: "ken.shao@liqentech.com",
-      telephone: "+353892665691",
+      email: CONTACT_EMAIL,
+      telephone: CONTACT_PHONE,
       availableLanguage: ["English"],
     },
     address: {

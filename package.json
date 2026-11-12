@@ -6,8 +6,22 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint",
-    "simulate:visitors": "node scripts/simulate-visitors.mjs"
+    "lint": "eslint src scripts tests",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "node shots/scripts/verify-consultation.mjs",
+    "simulate:visitors": "node scripts/simulate-visitors.mjs",
+    "verify:api": "node shots/scripts/verify-behavior-events.mjs",
+    "verify:ui": "node shots/scripts/verify-consultation.mjs",
+    "verify:hardening": "node shots/scripts/verify-hardening.mjs",
+    "verify:batch4": "node shots/scripts/check-batch4.mjs",
+    "verify:tracking": "node shots/scripts/check-tracking.mjs",
+    "verify:webgl": "node shots/scripts/check-webgl-fallback.mjs",
+    "verify:admin": "node shots/scripts/verify-admin.mjs",
+    "check:supabase": "node scripts/check-supabase.mjs",
+    "db:apply": "node scripts/apply-sql.mjs",
+    "check:deployment": "node scripts/check-deployment.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
@@ -27,8 +41,10 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.9",
+    "pg": "^8.23.1",
     "playwright": "^1.60.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.12"
   }
 }

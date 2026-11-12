@@ -1,26 +1,27 @@
 import type { MetadataRoute } from "next";
+import { CONTENT_UPDATED_AT, SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  const lastModified = new Date(CONTENT_UPDATED_AT);
 
   return [
     {
-      url: "https://liqentech.com",
-      lastModified: now,
+      url: SITE_URL,
+      lastModified,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: "https://liqentech.com/careers",
-      lastModified: now,
+      url: `${SITE_URL}/careers`,
+      lastModified,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: "https://liqentech.com/success",
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.3,
+      url: `${SITE_URL}/privacy`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.2,
     },
   ];
 }

@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { readDelivery, type BehaviorDelivery } from "@/lib/delivery";
+import { SITE_SOURCE } from "@/lib/site";
+import { readStoredJson } from "@/lib/storage";
 
 type EventPayload = {
   type: string;
@@ -18,6 +21,12 @@ type EventPayload = {
 
 type BehaviorEvent = ReturnType<typeof buildEvent>;
 
+// The delivery contract and the storage helpers live in lib/ so they can be
+// unit-tested without a browser (tests/unit/delivery.test.ts, storage.test.ts).
+export type { BehaviorDelivery };
+
+const DELIVERY_TIMEOUT_MS = 20_000;
+
 type UtmParams = {
   source?: string | null;
   medium?: string | null;
@@ -32,7 +41,6 @@ declare global {
   }
 }
 
-const SITE_SOURCE = "liqentech";
 const STORAGE_PREFIX = "liqentech";
 
 function getStoredId(key: string, prefix: string) {
@@ -87,20 +95,36 @@ function buildEvent(payload: EventPayload, visitorId?: string | null, sessionId?
   };
 }
 
-function sendBehavior(event: BehaviorEvent, useBeacon = false) {
+async function sendBehavior(event: BehaviorEvent, useBeacon = false): Promise<BehaviorDelivery> {
   if (useBeacon && navigator.sendBeacon) {
-    navigator.sendBeacon("/api/behavior-events", JSON.stringify(event));
-    return Promise.resolve();
+    const queued = navigator.sendBeacon("/api/behavior-events", JSON.stringify(event));
+    return { ok: queued, status: 0, stored: queued, error: queued ? undefined : "beacon rejected" };
   }
 
-  return fetch("/api/behavior-events", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(event),
-    keepalive: true,
-  })
-    .then(() => undefined)
-    .catch(() => undefined);
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), DELIVERY_TIMEOUT_MS);
+
+  try {
+    const response = await fetch("/api/behavior-events", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(event),
+      keepalive: true,
+      signal: controller.signal,
+    });
+    return await readDelivery(response);
+  } catch (error) {
+    // Network failure or the timeout above: report it rather than swallowing it.
+    // A caller that submits a lead must not mistake this for a delivered lead.
+    return {
+      ok: false,
+      status: 0,
+      stored: false,
+      error: error instanceof Error && error.name === "AbortError" ? "timeout" : "network error",
+    };
+  } finally {
+    window.clearTimeout(timer);
+  }
 }
 
 function sendMauticEvent(payload: EventPayload) {
@@ -113,6 +137,39 @@ function sendMauticEvent(payload: EventPayload) {
   });
 }
 
+const SESSION_TTL_MS = 30 * 60 * 1000;
+
+function touchSession(now = Date.now()) {
+  try {
+    window.sessionStorage.setItem(`${STORAGE_PREFIX}_session_seen`, String(now));
+  } catch {
+    /* storage can be unavailable in hardened browsers */
+  }
+}
+
+/**
+ * A session groups everything a visitor does until 30 minutes of inactivity.
+ * It lives in sessionStorage so client-side navigations reuse it (each tracker
+ * mount used to mint a fresh id, which inflated the "sessions" metric).
+ */
+function getSessionId() {
+  const now = Date.now();
+  try {
+    const existing = window.sessionStorage.getItem(`${STORAGE_PREFIX}_session_id`);
+    const lastSeen = Number(window.sessionStorage.getItem(`${STORAGE_PREFIX}_session_seen`) ?? 0);
+    if (existing && now - lastSeen < SESSION_TTL_MS) {
+      touchSession(now);
+      return existing;
+    }
+    const next = `session_${crypto.randomUUID()}`;
+    window.sessionStorage.setItem(`${STORAGE_PREFIX}_session_id`, next);
+    touchSession(now);
+    return next;
+  } catch {
+    return `session_${crypto.randomUUID()}`;
+  }
+}
+
 export function VisitorTracker() {
   const visitorId = useRef<string | null>(null);
   const sessionId = useRef<string | null>(null);
@@ -120,7 +177,7 @@ export function VisitorTracker() {
 
   useEffect(() => {
     visitorId.current = getStoredId(`${STORAGE_PREFIX}_visitor_id`, "visitor");
-    sessionId.current = `session_${crypto.randomUUID()}`;
+    sessionId.current = getSessionId();
 
     const send = (payload: EventPayload, useBeacon = false) => {
       const event = buildEvent(payload, visitorId.current, sessionId.current);
@@ -155,14 +212,17 @@ export function VisitorTracker() {
       (entries) => {
         entries.forEach((entry) => {
           const section = entry.target.getAttribute("data-track-section");
-          if (entry.isIntersecting && section && !visibleSections.has(section)) {
+          // 0.45 was unreachable for sections taller than the viewport on phones,
+          // which silently dropped their section_view events.
+          const enough = entry.intersectionRatio >= 0.15;
+          if (entry.isIntersecting && enough && section && !visibleSections.has(section)) {
             visibleSections.add(section);
             window.localStorage.setItem(`${STORAGE_PREFIX}_viewed_sections`, JSON.stringify([...visibleSections]));
             send({ type: "section_view", section });
           }
         });
       },
-      { threshold: 0.45 },
+      { threshold: [0.15, 0.3, 0.5], rootMargin: "0px 0px -8% 0px" },
     );
 
     document.querySelectorAll("[data-track-section]").forEach((section) => observer.observe(section));
@@ -186,7 +246,14 @@ export function VisitorTracker() {
       sendMauticEvent(payload);
     };
 
-    const beforeUnload = () => {
+    // beforeunload does not fire reliably on mobile Safari/Chrome iOS, so time on
+    // page is flushed from pagehide and visibilitychange instead (beacon transport).
+    // One flush per hide/leave cycle keeps the metric from being counted twice.
+    let timeFlushed = false;
+    const flushTimeOnPage = () => {
+      if (timeFlushed) return;
+      timeFlushed = true;
+      touchSession();
       send(
         {
           type: "time_on_page",
@@ -196,14 +263,26 @@ export function VisitorTracker() {
       );
     };
 
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        flushTimeOnPage();
+        return;
+      }
+      timeFlushed = false;
+      touchSession();
+    };
+    const onPageHide = () => flushTimeOnPage();
+
     window.addEventListener("scroll", onScroll, { passive: true });
     document.addEventListener("click", clickHandler);
-    window.addEventListener("beforeunload", beforeUnload);
+    window.addEventListener("pagehide", onPageHide);
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
       document.removeEventListener("click", clickHandler);
-      window.removeEventListener("beforeunload", beforeUnload);
+      window.removeEventListener("pagehide", onPageHide);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       observer.disconnect();
     };
   }, []);
@@ -211,18 +290,18 @@ export function VisitorTracker() {
   return null;
 }
 
-export function trackBehavior(payload: EventPayload) {
+export async function trackBehavior(payload: EventPayload): Promise<BehaviorDelivery> {
   const visitorId = window.localStorage.getItem(`${STORAGE_PREFIX}_visitor_id`);
   const event = buildEvent(payload, visitorId, null);
-  const delivery = sendBehavior(event);
   sendMauticEvent(payload);
-  return delivery;
+  return sendBehavior(event);
 }
 
 export function getBehaviorSnapshot() {
+  const maxScrollDepth = Number(window.localStorage.getItem(`${STORAGE_PREFIX}_max_scroll_depth`) ?? "0");
   return {
-    maxScrollDepth: Number(window.localStorage.getItem(`${STORAGE_PREFIX}_max_scroll_depth`) ?? "0"),
-    clickedTargets: JSON.parse(window.localStorage.getItem(`${STORAGE_PREFIX}_clicked_targets`) ?? "[]") as string[],
-    viewedSections: JSON.parse(window.localStorage.getItem(`${STORAGE_PREFIX}_viewed_sections`) ?? "[]") as string[],
+    maxScrollDepth: Number.isFinite(maxScrollDepth) ? maxScrollDepth : 0,
+    clickedTargets: readStoredJson<string[]>(window.localStorage, `${STORAGE_PREFIX}_clicked_targets`, []),
+    viewedSections: readStoredJson<string[]>(window.localStorage, `${STORAGE_PREFIX}_viewed_sections`, []),
   };
 }

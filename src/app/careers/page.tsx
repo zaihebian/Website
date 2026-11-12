@@ -1,9 +1,10 @@
 import ConsultationProvider from "@/components/ConsultationProvider";
-import FluidScene from "@/components/FluidScene";
+import StaticBackdrop from "@/components/StaticBackdrop";
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
 import Reveal from "@/components/Reveal";
 import { VisitorTracker } from "@/components/VisitorTracker";
+import { CAREERS_EMAIL, SITE_URL } from "@/lib/site";
 
 const roles = [
   {
@@ -104,12 +105,30 @@ const roles = [
   },
 ];
 
+const jobPostings = roles.map((role) => ({
+  "@context": "https://schema.org",
+  "@type": "JobPosting",
+  title: role.title,
+  description: role.description,
+  datePosted: "2026-11-12",
+  employmentType: role.tags.includes("Part-time") ? "PART_TIME" : "CONTRACTOR",
+  hiringOrganization: { "@type": "Organization", name: "LiqenTech", sameAs: SITE_URL },
+  jobLocationType: "TELECOMMUTE",
+  applicantLocationRequirements: { "@type": "Country", name: "Ireland" },
+  directApply: false,
+  url: `${SITE_URL}/careers`,
+}));
+
 export default function CareersPage() {
   return (
     <ConsultationProvider>
       <VisitorTracker />
-      <FluidScene />
+      <StaticBackdrop />
       <SiteNav />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostings) }}
+      />
       <main className="mx-auto max-w-5xl px-4 pb-28 pt-36 sm:px-6" data-track-section="careers">
         <Reveal>
           <h1 className="text-4xl font-semibold tracking-tighter text-[var(--ink)] sm:text-5xl">Join LiqenTech</h1>
@@ -129,7 +148,7 @@ export default function CareersPage() {
                     {role.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full border border-[var(--line)] bg-white/5 px-3 py-1 text-xs font-medium text-[var(--ink-dim)]"
+                        className="rounded-full border border-[var(--line)] bg-[rgba(10,13,17,0.04)] px-3 py-1 text-xs font-medium text-[var(--ink-dim)]"
                       >
                         {tag}
                       </span>
@@ -184,11 +203,11 @@ export default function CareersPage() {
               to:
             </p>
             <a
-              href="mailto:careers@liqentech.com"
+              href={`mailto:${CAREERS_EMAIL}`}
               className="mt-6 inline-block text-lg font-medium text-[var(--accent)] underline underline-offset-4 transition hover:opacity-80"
               data-track-click="careers-email"
             >
-              careers@liqentech.com
+              {CAREERS_EMAIL}
             </a>
           </div>
         </Reveal>

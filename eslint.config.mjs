@@ -18,6 +18,10 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      // Local acceptance artifacts (gitignored): screenshots, logs, mjs probes.
+      // Walking them made `npm run lint` take minutes for no benefit.
+      "shots/**",
+      "coverage/**",
     ],
   },
 ];

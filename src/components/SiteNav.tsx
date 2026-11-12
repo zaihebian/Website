@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { List, X } from "@phosphor-icons/react";
 import { useConsultation } from "@/components/ConsultationProvider";
 
@@ -15,11 +15,32 @@ const links = [
 
 export default function SiteNav() {
   const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const { openConsultation } = useConsultation();
+
+  useEffect(() => {
+    if (!open) return;
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setOpen(false);
+      menuButtonRef.current?.focus();
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [open]);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      <nav className="mx-auto flex h-16 min-w-0 max-w-7xl items-center justify-between gap-2 px-3 sm:gap-3 sm:px-6">
+      {/* Scrim so scrolling content never collides with the logo and CTA. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-28"
+        style={{
+          background:
+            "linear-gradient(to bottom, #f7f9fa 0%, #f7f9fa 58%, rgba(247,249,250,0.82) 80%, rgba(247,249,250,0) 100%)",
+        }}
+      />
+      <nav className="relative mx-auto flex h-16 min-w-0 max-w-7xl items-center justify-between gap-2 px-3 sm:gap-3 sm:px-6">
         <Link
           href="/"
           className="flex min-w-0 max-w-[min(100%,calc(100%-3.5rem))] items-center gap-2 sm:gap-2.5"
@@ -27,7 +48,7 @@ export default function SiteNav() {
           aria-label="LiqenTech, home"
         >
           <Image
-            src="/Asset/LiqenTech-Circle-logo.png"
+            src="/Asset/logo-96.png"
             alt=""
             width={42}
             height={42}
@@ -44,7 +65,7 @@ export default function SiteNav() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-full px-3 py-1.5 text-sm text-[var(--ink-dim)] transition hover:bg-white/5 hover:text-[var(--ink)] lg:px-4"
+              className="rounded-full px-3 py-1.5 text-sm text-[var(--ink-dim)] transition hover:bg-[rgba(10,13,17,0.05)] hover:text-[var(--ink)] lg:px-4"
               data-track-click={`nav-${link.label.toLowerCase().replaceAll(" ", "-")}`}
             >
               {link.label}
@@ -62,10 +83,12 @@ export default function SiteNav() {
             Book a consultation
           </button>
           <button
+            ref={menuButtonRef}
             type="button"
             className="glass shrink-0 rounded-full p-2.5 text-[var(--ink)] lg:hidden"
             onClick={() => setOpen(!open)}
-            aria-label="Menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-controls="mobile-menu"
             aria-expanded={open}
           >
             {open ? <X size={20} /> : <List size={20} />}
@@ -74,13 +97,13 @@ export default function SiteNav() {
       </nav>
 
       {open && (
-        <div className="glass mx-4 mt-2 rounded-3xl p-4 lg:hidden">
+        <div id="mobile-menu" className="glass mx-4 mt-2 rounded-3xl p-4 lg:hidden">
           <div className="flex flex-col">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-2xl px-4 py-3 text-[15px] text-[var(--ink-dim)] transition hover:bg-white/5 hover:text-[var(--ink)]"
+                className="rounded-2xl px-4 py-3 text-[15px] text-[var(--ink-dim)] transition hover:bg-[rgba(10,13,17,0.05)] hover:text-[var(--ink)]"
                 onClick={() => setOpen(false)}
                 data-track-click={`mobile-nav-${link.label.toLowerCase().replaceAll(" ", "-")}`}
               >
