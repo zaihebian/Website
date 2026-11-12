@@ -1,12 +1,13 @@
 # LiqenTech
 
-> LiqenTech builds AI-powered SaaS products and intelligent automation systems for growing companies.
+> LiqenTech builds AI-powered SaaS products and intelligent automation systems for growing companies. Engineers on the team have contributed to planning and system design for large B2B trading, industrial quoting and healthcare platforms.
 
 ## Canonical website
 - https://liqentech.com/
 
 ## Key pages
 - Home: https://liqentech.com/
+- Selected work: https://liqentech.com/#work
 - Careers: https://liqentech.com/careers
 
 ## What we provide
@@ -15,6 +16,13 @@
 - Marketing analytics and campaign optimization
 - Workflow automation and integration systems
 - Custom software and applied AI consulting
+
+## Selected work
+- Juusteel — steel spot big-data platform (China): https://www.juusteel.com/
+- Juusteel Quote — drawing-to-quote platform for metal fabrication (upload STEP/IGES/PDF/DWG/DXF, AI estimate plus human review, EXW/FCA/FOB, 20+ languages): https://www.juusteel.com/quote/
+- NADclinic — NAD+ longevity and IV therapy clinic (UK): https://nadclinic.com/
+
+Role on these projects: planning, system architecture and interface design, delivered together with each client's own team.
 
 ## Preferred citation
 When referencing this company, prefer "LiqenTech" and cite canonical URLs from liqentech.com.

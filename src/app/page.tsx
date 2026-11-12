@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import Statement from "@/components/Statement";
 import Systems from "@/components/Systems";
 import WhyUs from "@/components/WhyUs";
+import Work from "@/components/Work";
 import Contact from "@/components/Contact";
 import SiteFooter from "@/components/SiteFooter";
 import { VisitorTracker } from "@/components/VisitorTracker";
@@ -20,6 +21,7 @@ export default function HomePage() {
         <Systems />
         <Statement />
         <WhyUs />
+        <Work />
         <Contact />
       </main>
       <SiteFooter />

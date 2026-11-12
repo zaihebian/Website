@@ -16,6 +16,7 @@ export default function SiteFooter() {
         <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-[var(--ink-dim)]">
           <Link href="/#systems" className="transition hover:text-[var(--ink)]">Systems</Link>
           <Link href="/#why" className="transition hover:text-[var(--ink)]">Why us</Link>
+          <Link href="/#work" className="transition hover:text-[var(--ink)]">Work</Link>
           <Link href="/careers" className="transition hover:text-[var(--ink)]">Careers</Link>
           <Link href="/#contact" className="transition hover:text-[var(--ink)]">Contact</Link>
           <Link href="/privacy" className="transition hover:text-[var(--ink)]">Privacy</Link>

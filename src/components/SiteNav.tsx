@@ -8,6 +8,7 @@ import { useConsultation } from "@/components/ConsultationProvider";
 
 const links = [
   { href: "/#systems", label: "Systems" },
+  { href: "/#work", label: "Work" },
   { href: "/#why", label: "Why us" },
   { href: "/careers", label: "Careers" },
   { href: "/#contact", label: "Contact" },
