@@ -499,6 +499,15 @@ export default function IntegrationPage() {
                   See related platforms
                 </Link>
               </div>
+              <p className="mt-6 text-[13px] leading-relaxed text-[var(--ink-faint)]">
+                Integration is one of four solutions.{" "}
+                <Link
+                  href="/solutions"
+                  className="font-semibold text-[var(--accent)] underline underline-offset-4 transition hover:text-[var(--ink)]"
+                >
+                  See the other three
+                </Link>
+              </p>
             </div>
           </Reveal>
         </section>

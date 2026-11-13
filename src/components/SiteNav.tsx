@@ -10,7 +10,6 @@ const links = [
   { href: "/#systems", label: "Systems" },
   { href: "/solutions", label: "Solutions" },
   { href: "/#work", label: "Work" },
-  { href: "/integration", label: "Integration" },
   { href: "/#why", label: "Why us" },
   { href: "/careers", label: "Careers" },
   { href: "/#contact", label: "Contact" },

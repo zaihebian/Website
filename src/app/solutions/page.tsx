@@ -12,12 +12,12 @@ import { SITE_URL } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Solutions",
   description:
-    "Three ways into the work: operations automation for the back office, customer journey automation for marketing and sales, and lead capture for the 72 hours after a form fill.",
+    "Four ways into the work: operations automation for the back office, customer journey automation, lead capture for the 72 hours after a form fill, and integration for the systems you cannot replace.",
   alternates: { canonical: "/solutions" },
   openGraph: {
     title: "Solutions — LiqenTech",
     description:
-      "Operations automation, customer journey automation and lead capture — three ways into the work, all built on the systems you already run.",
+      "Operations automation, customer journey automation, lead capture and Integration & RPA — four ways into the work, all built on the systems you already run.",
     url: `${SITE_URL}/solutions`,
     type: "website",
   },
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Solutions — LiqenTech",
     description:
-      "Operations automation, customer journey automation and lead capture — three ways into the work, all built on the systems you already run.",
+      "Operations automation, customer journey automation, lead capture and Integration & RPA — four ways into the work, all built on the systems you already run.",
   },
 };
 
@@ -54,6 +54,14 @@ const tracks = [
     points: ["First reply under 60 seconds", "Every lead has an owner and a deadline", "Monthly numbers published, not claimed"],
     linkLabel: "Lead capture",
   },
+  {
+    href: "/integration",
+    title: "Integration & RPA",
+    lead: "The system that will never have an API.",
+    desc: "WhatsApp, Teams, email and web forms connected to the software you cannot replace: Power Automate cloud flows and desktop flows layered on top, with no migration.",
+    points: ["Desktop flows operate the legacy client as-is", "Connectors, Power BI and AI Builder on top", "On-premises data gateway for records that stay inside"],
+    linkLabel: "Integration & RPA",
+  },
 ];
 
 export default function SolutionsPage() {
@@ -70,14 +78,14 @@ export default function SolutionsPage() {
             Pick the bottleneck.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--ink-dim)]">
-            Most of the lost hours sit in one of two places: the back office, or the journey from form fill to renewal.
-            Start with the one that hurts.
+            Four ways in: the back office, the customer journey, the 72 hours after a form fill, and the system you
+            cannot replace. Start with the one that hurts.
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-4 lg:grid-cols-3">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2">
           {tracks.map((track, index) => (
-            <Reveal key={track.href} delay={index * 0.06}>
+            <Reveal key={track.href} delay={(index % 2) * 0.06}>
               <article className="glass flex h-full flex-col rounded-3xl p-7">
                 <span className="font-mono text-xs text-[var(--accent)]">{String(index + 1).padStart(2, "0")}</span>
                 <h2 className="mt-4 text-xl font-semibold tracking-tight text-[var(--ink)]">{track.title}</h2>
@@ -105,19 +113,6 @@ export default function SolutionsPage() {
             </Reveal>
           ))}
         </div>
-
-        <Reveal>
-          <p className="mt-8 text-[15px] leading-relaxed text-[var(--ink-faint)]">
-            Have a system you cannot replace?{" "}
-            <Link
-              href="/integration"
-              className="font-semibold text-[var(--accent)] underline underline-offset-4 transition hover:text-[var(--ink)]"
-            >
-              Integration &amp; RPA
-            </Link>{" "}
-            is the fourth way in.
-          </p>
-        </Reveal>
 
         <section className="mt-20" aria-labelledby="solutions-cta">
           <Reveal>
