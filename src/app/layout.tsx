@@ -42,12 +42,6 @@ export const metadata: Metadata = {
   creator: "Liqentech",
   publisher: "Liqentech",
   referrer: "origin-when-cross-origin",
-  alternates: {
-    canonical: "/",
-    languages: {
-      "en-US": "/",
-    },
-  },
   // Icons come from the app/icon.png + app/apple-icon.png file conventions.
   openGraph: {
     title: defaultTitle,
@@ -158,9 +152,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <head>
-        <link rel="canonical" href={siteUrl} />
-      </head>
       <body className="min-h-screen font-sans antialiased" suppressHydrationWarning>
         <Script
           id="mautic-tracking"
