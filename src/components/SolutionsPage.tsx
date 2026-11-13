@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import ConsultationProvider from "@/components/ConsultationProvider";
-import StaticBackdrop from "@/components/StaticBackdrop";
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
 import Reveal from "@/components/Reveal";
@@ -50,7 +49,6 @@ export default function SolutionsPage({ content }: { content: SolutionsContent }
   return (
     <ConsultationProvider>
       <VisitorTracker />
-      <StaticBackdrop />
       <SiteNav />
 
       <main className="mx-auto max-w-6xl px-4 pb-24 pt-36 sm:px-6" data-track-section={content.section}>

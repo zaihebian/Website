@@ -1,6 +1,5 @@
 import Link from "next/link";
 import ConsultationProvider from "@/components/ConsultationProvider";
-import StaticBackdrop from "@/components/StaticBackdrop";
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
 import { VisitorTracker } from "@/components/VisitorTracker";
@@ -9,7 +8,6 @@ export default function SuccessPage() {
   return (
     <ConsultationProvider>
       <VisitorTracker />
-      <StaticBackdrop />
       <SiteNav />
       <main className="flex min-h-[100dvh] items-center justify-center px-4 pt-16 sm:px-6">
         <div className="glass w-full max-w-xl rounded-3xl p-8 text-center sm:p-12">

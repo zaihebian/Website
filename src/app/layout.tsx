@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
+import BackgroundScene from "@/components/BackgroundScene";
 import { CONTACT_EMAIL, CONTACT_PHONE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -175,6 +176,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
+        {/* One background for every route: the waterfall sits in the root layout so
+            client-side navigation never remounts the WebGL context. The admin area
+            paints its own opaque surface over it. */}
+        <BackgroundScene />
         {children}
       </body>
     </html>

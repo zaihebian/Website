@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ConsultationProvider from "@/components/ConsultationProvider";
-import StaticBackdrop from "@/components/StaticBackdrop";
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
 import Reveal from "@/components/Reveal";
@@ -213,7 +212,6 @@ export default function IntegrationPage() {
   return (
     <ConsultationProvider>
       <VisitorTracker />
-      <StaticBackdrop />
       <SiteNav />
       <script
         type="application/ld+json"
