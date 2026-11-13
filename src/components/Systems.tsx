@@ -63,6 +63,8 @@ const groups: Group[] = [
         title: "Unlock company knowledge",
         lead: "Your business shouldn't depend on who remembers what.",
         desc: "Transform documents, SOPs, and scattered information into an AI-powered knowledge hub your team can access instantly.",
+        href: "/solutions/knowledge-hub",
+        linkLabel: "Explore knowledge hub",
       },
       {
         icon: Plugs,

@@ -42,6 +42,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${SITE_URL}/solutions/knowledge-hub`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${SITE_URL}/solutions/integration`,
       lastModified,
       changeFrequency: "monthly",

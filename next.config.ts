@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
       { source: "/operations", destination: "/solutions/operations", permanent: true },
       { source: "/customer-journey", destination: "/solutions/customer-journey", permanent: true },
       { source: "/lead-capture", destination: "/solutions/lead-capture", permanent: true },
+      { source: "/knowledge-hub", destination: "/solutions/knowledge-hub", permanent: true },
+      { source: "/company-knowledge", destination: "/solutions/knowledge-hub", permanent: true },
       { source: "/marketing-automation", destination: "/solutions/customer-journey", permanent: true },
       { source: "/integration", destination: "/solutions/integration", permanent: true },
       { source: "/rpa", destination: "/solutions/integration", permanent: true },

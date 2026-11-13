@@ -12,12 +12,12 @@ import { SITE_URL } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Solutions",
   description:
-    "Four ways into the work: operations automation for the back office, customer journey automation, lead capture for the 72 hours after a form fill, and integration for the systems you cannot replace.",
+    "Five ways into the work: operations automation for the back office, customer journey automation, lead capture for the 72 hours after a form fill, a private knowledge hub, and integration for the systems you cannot replace.",
   alternates: { canonical: "/solutions" },
   openGraph: {
     title: "Solutions — LiqenTech",
     description:
-      "Operations automation, customer journey automation, lead capture and Integration & RPA — four ways into the work, all built on the systems you already run.",
+      "Operations automation, customer journey automation, lead capture, a private knowledge hub and Integration & RPA — five ways into the work, all built on the systems you already run.",
     url: `${SITE_URL}/solutions`,
     type: "website",
   },
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Solutions — LiqenTech",
     description:
-      "Operations automation, customer journey automation, lead capture and Integration & RPA — four ways into the work, all built on the systems you already run.",
+      "Operations automation, customer journey automation, lead capture, a private knowledge hub and Integration & RPA — five ways into the work, all built on the systems you already run.",
   },
 };
 
@@ -55,6 +55,14 @@ const tracks = [
     linkLabel: "Explore lead capture",
   },
   {
+    href: "/solutions/knowledge-hub",
+    title: "Private knowledge hub",
+    lead: "The answer is in a document somewhere.",
+    desc: "Your documents, procedures and hard-won know-how in a private hub on your own hardware: plain-English questions, answers with sources, nothing leaves the building.",
+    points: ["Permissions enforced before the answer is written", "Works with the internet unplugged", "Files stay in their own formats"],
+    linkLabel: "Explore knowledge hub",
+  },
+  {
     href: "/solutions/integration",
     title: "Integration & RPA",
     lead: "The system that will never have an API.",
@@ -78,14 +86,18 @@ export default function SolutionsPage() {
             Pick the bottleneck.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--ink-dim)]">
-            Four ways in: the back office, the customer journey, the 72 hours after a form fill, and the system you
-            cannot replace. Start with the one that hurts.
+            Five ways in: the back office, the customer journey, the 72 hours after a form fill, the know-how nobody
+            wrote down, and the system you cannot replace. Start with the one that hurts.
           </p>
         </Reveal>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2">
           {tracks.map((track, index) => (
-            <Reveal key={track.href} delay={(index % 2) * 0.06}>
+            <Reveal
+              key={track.href}
+              delay={(index % 2) * 0.06}
+              className={index === tracks.length - 1 && tracks.length % 2 === 1 ? "sm:col-span-2" : undefined}
+            >
               <article className="glass flex h-full flex-col rounded-3xl p-7">
                 <span className="font-mono text-xs text-[var(--accent)]">{String(index + 1).padStart(2, "0")}</span>
                 <h2 className="mt-4 text-xl font-semibold tracking-tight text-[var(--ink)]">{track.title}</h2>
