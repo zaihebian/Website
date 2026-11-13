@@ -55,6 +55,8 @@ const groups: Group[] = [
         lead: "Replace repetitive tasks with intelligent workflows.",
         desc: "From customer onboarding to internal processes, we build systems that keep your business moving without manual effort.",
         wash: "radial-gradient(120% 140% at 0% 0%, rgba(13,110,140,0.07), transparent 55%)",
+        href: "/solutions/operations",
+        linkLabel: "Explore operations",
       },
       {
         icon: BookOpenText,
@@ -94,6 +96,8 @@ const groups: Group[] = [
         lead: "Do more with less.",
         desc: "Launch campaigns faster, automate customer journeys, and keep prospects engaged without increasing workload.",
         wash: "radial-gradient(130% 130% at 100% 100%, rgba(13,110,140,0.065), transparent 55%)",
+        href: "/solutions/customer-journey",
+        linkLabel: "Explore customer journey",
       },
       {
         icon: LockKey,
