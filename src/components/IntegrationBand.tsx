@@ -11,7 +11,7 @@ export default function IntegrationBand() {
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <Link
-            href="/integration"
+            href="/solutions/integration"
             data-track-click="home-integration-banner"
             className="glass group -mt-12 flex flex-col items-start justify-between gap-2 rounded-3xl px-5 py-4 transition hover:border-[rgba(13,110,140,0.35)] sm:-mt-16 sm:flex-row sm:items-center sm:gap-3 sm:px-8 sm:py-5"
           >

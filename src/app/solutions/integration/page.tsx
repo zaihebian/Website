@@ -13,12 +13,12 @@ export const metadata: Metadata = {
   title: "Integration & RPA",
   description:
     "Legacy software can't be replaced overnight — and it doesn't have to be. Microsoft Power Automate cloud flows, desktop flows (RPA), connectors and AI layered onto the systems you already run: WhatsApp, Teams and web forms connected without a migration.",
-  alternates: { canonical: "/integration" },
+  alternates: { canonical: "/solutions/integration" },
   openGraph: {
     title: "Integration & RPA — LiqenTech",
     description:
       "Don't rip and replace. Teach your legacy system new tricks: Power Automate automation, integration and AI on top of the systems clinics, manufacturers and public bodies already run.",
-    url: `${SITE_URL}/integration`,
+    url: `${SITE_URL}/solutions/integration`,
     type: "website",
   },
   twitter: {
