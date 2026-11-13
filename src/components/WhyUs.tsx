@@ -19,31 +19,37 @@ const principles = [
   },
 ];
 
+/**
+ * Deliberately the quietest band on the page: the claim is a summary, not a
+ * feature, so it sits in one short strip instead of a full-viewport section.
+ */
 export default function WhyUs() {
   return (
-    <section id="why" className="relative scroll-mt-20 px-4 py-28 sm:px-6 lg:py-36" data-track-section="why-us">
+    <section id="why" className="relative scroll-mt-20 px-4 py-14 sm:px-6 lg:py-16" data-track-section="why-us">
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <Reveal>
-              <h2 className="text-3xl font-semibold tracking-tighter text-[var(--ink)] sm:text-5xl">
-                AI is easy. Solving business problems is hard.
-              </h2>
-              <p className="mt-5 text-lg text-[var(--ink-dim)]">That&apos;s where we come in.</p>
-            </Reveal>
-          </div>
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.6fr)] lg:gap-16">
+          <Reveal>
+            <h2 className="max-w-sm text-2xl font-semibold leading-[1.12] tracking-tighter text-[var(--ink)] sm:text-[1.75rem]">
+              AI is easy. Solving business problems is hard.
+            </h2>
+            <p className="mt-3 text-[15px] leading-snug tracking-tight text-[var(--ink-dim)]">
+              That&apos;s where we come in.
+            </p>
+          </Reveal>
 
-          <div className="lg:col-span-6 lg:col-start-7">
-            <div className="flex flex-col gap-12 lg:mt-8">
-              {principles.map((principle, i) => (
-                <Reveal key={principle.title} delay={i * 0.06}>
-                  <div className={i % 2 === 1 ? "lg:pl-16" : ""}>
-                    <h3 className="text-2xl font-semibold tracking-tight text-[var(--ink)]">{principle.title}</h3>
-                    <p className="mt-2 max-w-md text-[15px] leading-relaxed text-[var(--ink-dim)]">{principle.desc}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
+          <div className="grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2">
+            {principles.map((principle, i) => (
+              <Reveal key={principle.title} delay={i * 0.04}>
+                <div className="border-t border-[var(--line)] pt-3">
+                  <h3 className="text-[15px] font-semibold leading-snug tracking-tight text-[var(--ink)]">
+                    {principle.title}
+                  </h3>
+                  <p className="mt-1 max-w-sm text-[13.5px] leading-snug tracking-tight text-[var(--ink-faint)]">
+                    {principle.desc}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </div>
