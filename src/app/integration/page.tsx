@@ -12,12 +12,12 @@ import { CONTACT_EMAIL, SITE_URL } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Integration & RPA",
   description:
-    "We connect WhatsApp, Microsoft Teams, email and web forms to the software you cannot replace, using Microsoft Power Automate cloud flows and desktop flows (RPA).",
+    "Legacy software can't be replaced overnight — and it doesn't have to be. Microsoft Power Automate cloud flows, desktop flows (RPA), connectors and AI layered onto the systems you already run: WhatsApp, Teams and web forms connected without a migration.",
   alternates: { canonical: "/integration" },
   openGraph: {
     title: "Integration & RPA — LiqenTech",
     description:
-      "Legacy software stays. New channels get connected. Microsoft Power Automate cloud and desktop flows for clinics, manufacturers and public bodies.",
+      "Don't rip and replace. Teach your legacy system new tricks: Power Automate automation, integration and AI on top of the systems clinics, manufacturers and public bodies already run.",
     url: `${SITE_URL}/integration`,
     type: "website",
   },
@@ -25,9 +25,36 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Integration & RPA — LiqenTech",
     description:
-      "Legacy software stays. New channels get connected. Microsoft Power Automate cloud and desktop flows for clinics, manufacturers and public bodies.",
+      "Don't rip and replace. Teach your legacy system new tricks: Power Automate automation, integration and AI on top of the systems your business already runs.",
   },
 };
+
+const replacementCosts = [
+  {
+    label: "Downtime windows",
+    note: "The business stops while the migration runs.",
+  },
+  {
+    label: "Data migration",
+    note: "Every record, attachment and exception, moved and re-checked.",
+  },
+  {
+    label: "Retraining every employee",
+    note: "A new interface for every person who touches the system.",
+  },
+  {
+    label: "Rebuilding processes from scratch",
+    note: "Processes that took years to settle, rebuilt and re-tuned in production.",
+  },
+];
+
+const symptoms = [
+  "The same data entered three times across three systems",
+  "Reports stitched together by hand",
+  "Legacy clients with no API",
+  "New tools that can't get in the door",
+  "Systems sitting behind a wall from one another",
+];
 
 const gaps = [
   {
@@ -50,12 +77,39 @@ const capabilities = [
     body: "WhatsApp Business via the Meta Cloud API, email, web forms and Microsoft Teams, connected to the system you already run. An incoming message becomes a record; a record produces a reply.",
   },
   {
-    title: "Automate the glue",
-    body: "Microsoft Power Automate cloud flows where APIs exist, desktop flows (RPA) where they do not. Scheduled syncs, document intake, notifications and approval routing — built to run unattended.",
+    title: "Cloud flows",
+    body: "Where APIs exist: scheduled syncs, document intake, notifications and approval routing — built to run unattended, monitored and documented.",
   },
   {
-    title: "Leave the record alone",
-    body: "No data migration. Least-privilege access, audit logs, and an on-premises data gateway for anything that must stay inside your network.",
+    title: "Desktop flows (RPA)",
+    body: "Where they don't: flows operate the legacy client the way a person does — clicking menus, filling forms, moving data — with no change to the interface.",
+  },
+  {
+    title: "Connectors",
+    body: "Excel, email, ERP, cloud storage and the new SaaS tools you just bought, tied into one line. Plugging something new into the old system becomes as simple as a USB drive.",
+  },
+  {
+    title: "Power BI",
+    body: "Gives the data buried in legacy databases a voice: one dashboard over systems that were never designed to talk to each other.",
+  },
+  {
+    title: "AI Builder & Copilot",
+    body: "Business users describe a process in a sentence and have it built — classification, extraction, drafting — on the same platform as the rest of the automation.",
+  },
+];
+
+const unchanged = [
+  {
+    title: "Core databases",
+    body: "No migration, no re-keying, no schema change.",
+  },
+  {
+    title: "Historical data",
+    body: "Everything already in the system stays exactly where it is.",
+  },
+  {
+    title: "Employee habits",
+    body: "Same screens, same menus, same shortcuts on Monday morning.",
   },
 ];
 
@@ -78,6 +132,8 @@ const steps = [
   },
 ];
 
+const pilotPoints = ["One painful process first", "Live two to four weeks after the review", "Contained risk, measurable spend"];
+
 const reasons = [
   {
     title: "We connect, we don't replace",
@@ -97,6 +153,21 @@ const faqs = [
   {
     question: "Do we have to replace our existing software?",
     answer: "No. The system of record stays; we add the channels and the automation around it.",
+  },
+  {
+    question: "Isn't a new system the cleaner answer?",
+    answer:
+      "Sometimes — but not by default. A system that has run reliably for ten years is an asset, not a liability. Replacing it means downtime windows, data migration, retraining and rebuilt processes, plus the risk that the new system doesn't work either. Layer on top first and keep the option open.",
+  },
+  {
+    question: "Will our staff notice a difference?",
+    answer:
+      "Not on their screens. Desktop flows drive the same menus and forms your people use today, so the interface, the records and the habits stay. What changes is who does the repetitive part — the automation, not a person re-keying data at 6pm.",
+  },
+  {
+    question: "What if the automation doesn't work out?",
+    answer:
+      "We start with one painful process, so the downside is one workflow rather than a system: contained risk, measurable spend, and a result that either makes the case or gets rolled back.",
   },
   {
     question: "Will patient or customer data leave our network?",
@@ -125,24 +196,43 @@ const systems = [
   "Document intake (PDF, scans)",
 ];
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
+
 export default function IntegrationPage() {
   return (
     <ConsultationProvider>
       <VisitorTracker />
       <StaticBackdrop />
       <SiteNav />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
 
       <main className="mx-auto max-w-5xl px-4 pb-24 pt-36 sm:px-6" data-track-section="integration">
         <Reveal>
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--accent)]">Integration &amp; RPA</p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tighter text-[var(--ink)] sm:text-5xl lg:text-6xl">
-            Keep the software. Add the channels.
+          <h1 className="mt-4 max-w-5xl text-4xl font-semibold leading-[1.06] tracking-tighter text-[var(--ink)] sm:text-5xl lg:text-[3.5rem]">
+            Don&apos;t rip and replace.
+            <br />
+            Teach your legacy system new tricks.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--ink-dim)]">
-            Clinics, manufacturers and public bodies run on software they cannot afford to replace: migration risk,
-            retraining and downtime outweigh the missing features. So the old system stays — and WhatsApp, Teams and web
-            forms never get connected. We use Microsoft Power Automate to close that gap, without a rip-and-replace
-            programme.
+            Clinics, manufacturers and public bodies run on software that can&apos;t be replaced overnight — and
+            shouldn&apos;t be. We layer Microsoft Power Automate on top of what you already run: cloud flows where APIs
+            exist, desktop flows (RPA) where they don&apos;t. WhatsApp, Teams and web forms get connected without a
+            migration, a retraining programme or a single record moved.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
             <ConsultationCta label="Book an integration review" tracking="integration-consultation-cta" />
@@ -159,11 +249,75 @@ export default function IntegrationPage() {
           </p>
         </Reveal>
 
+        <section className="mt-20" aria-labelledby="integration-cost">
+          <Reveal>
+            <div className="glass rounded-3xl p-7 sm:p-9">
+              <div className="grid gap-8 lg:grid-cols-[1fr_0.92fr] lg:gap-12">
+                <div>
+                  <h2
+                    id="integration-cost"
+                    className="text-2xl font-semibold tracking-tight text-[var(--ink)] sm:text-3xl"
+                  >
+                    What replacement costs
+                  </h2>
+                  <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[var(--ink-dim)]">
+                    If a system has been running reliably for ten years, it isn&apos;t a liability. It&apos;s an asset.
+                    The real cost calculation was never about the software itself.
+                  </p>
+                  <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[var(--ink-faint)]">
+                    So what does replacing it actually involve? Everything except the licence fee.
+                  </p>
+                  <p className="mt-6 text-[15px] font-medium leading-relaxed text-[var(--ink)]">
+                    Most of the time, the rational answer is simple: don&apos;t.
+                  </p>
+                  <blockquote className="mt-5 rounded-2xl border-l-2 border-[var(--accent)] bg-white/55 px-4 py-3.5">
+                    <p className="text-[15px] italic text-[var(--ink-dim)]">
+                      &ldquo;assuming the new system works.&rdquo;
+                    </p>
+                    <p className="mt-1.5 text-[13px] leading-snug text-[var(--ink-faint)]">
+                      Millions in budget, a two-year timeline, and every bit of the risk sitting with the business.
+                    </p>
+                  </blockquote>
+                </div>
+                <div>
+                  <dl className="overflow-hidden rounded-2xl border border-[var(--line)] bg-white/50">
+                    {replacementCosts.map((cost) => (
+                      <div key={cost.label} className="border-b border-[var(--line)] px-4 py-3.5 last:border-b-0">
+                        <dt className="text-sm font-semibold text-[var(--ink)]">
+                          <span aria-hidden="true" className="mr-2 text-[var(--accent)]">
+                            ×
+                          </span>
+                          {cost.label}
+                        </dt>
+                        <dd className="mt-0.5 pl-4 text-[13px] leading-snug text-[var(--ink-faint)]">{cost.note}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </section>
+
         <section className="mt-20" aria-labelledby="integration-gap">
           <Reveal>
             <h2 id="integration-gap" className="text-2xl font-semibold tracking-tight text-[var(--ink)] sm:text-3xl">
               Why the gap exists
             </h2>
+            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[var(--ink-faint)]">
+              But the efficiency gap is real — and it doesn&apos;t fix itself just because you kept the system. It
+              usually shows up in the same five places:
+            </p>
+            <ul className="mt-5 flex flex-wrap gap-2">
+              {symptoms.map((symptom) => (
+                <li
+                  key={symptom}
+                  className="rounded-full border border-[var(--line)] bg-white/60 px-3 py-1.5 text-xs leading-snug text-[var(--ink-dim)]"
+                >
+                  {symptom}
+                </li>
+              ))}
+            </ul>
           </Reveal>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {gaps.map((gap, index) => (
@@ -182,10 +336,14 @@ export default function IntegrationPage() {
             <h2 id="integration-what" className="text-2xl font-semibold tracking-tight text-[var(--ink)] sm:text-3xl">
               What we do
             </h2>
+            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[var(--ink-faint)]">
+              Power Automate doesn&apos;t punch a hole in that wall. It goes over it. Think of it as a layer of nerve
+              endings wrapped around what you already own:
+            </p>
           </Reveal>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {capabilities.map((capability, index) => (
-              <Reveal key={capability.title} delay={index * 0.05}>
+              <Reveal key={capability.title} delay={(index % 3) * 0.05}>
                 <article className="glass h-full rounded-3xl p-6">
                   <h3 className="text-lg font-semibold tracking-tight text-[var(--ink)]">{capability.title}</h3>
                   <p className="mt-3 text-[15px] leading-relaxed text-[var(--ink-faint)]">{capability.body}</p>
@@ -193,6 +351,33 @@ export default function IntegrationPage() {
               </Reveal>
             ))}
           </div>
+        </section>
+
+        <section className="mt-20" aria-labelledby="integration-unchanged">
+          <Reveal>
+            <div className="glass rounded-3xl p-7 sm:p-9">
+              <h2
+                id="integration-unchanged"
+                className="text-2xl font-semibold tracking-tight text-[var(--ink)] sm:text-3xl"
+              >
+                What stays the same
+              </h2>
+              <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-[var(--ink-faint)]">
+                This is the part clients check first. Nothing underneath you moves.
+              </p>
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                {unchanged.map((item) => (
+                  <div key={item.title} className="rounded-2xl border border-[var(--line)] bg-white/55 p-4">
+                    <p className="text-sm font-semibold text-[var(--ink)]">{item.title}</p>
+                    <p className="mt-1 text-[13px] leading-snug text-[var(--ink-faint)]">{item.body}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-6 text-[15px] font-medium text-[var(--ink)]">
+                All you&apos;re adding is a pair of hands and a pair of eyes.
+              </p>
+            </div>
+          </Reveal>
         </section>
 
         <section className="mt-20" aria-labelledby="integration-how">
@@ -214,6 +399,35 @@ export default function IntegrationPage() {
               </Reveal>
             ))}
           </ol>
+          <Reveal>
+            <div className="glass mt-4 rounded-3xl p-7 sm:p-9">
+              <h3 className="text-xl font-semibold tracking-tight text-[var(--ink)]">It starts small on purpose</h3>
+              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[var(--ink-dim)]">
+                Pick the most painful process — month-end reconciliation, order entry, report consolidation — and let the
+                results make the argument before you scale.
+              </p>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {pilotPoints.map((point) => (
+                  <li
+                    key={point}
+                    className="rounded-full border border-[var(--line)] bg-white/60 px-3 py-1.5 text-xs font-medium leading-snug text-[var(--ink-dim)]"
+                  >
+                    {point}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-6 flex flex-col gap-4 border-t border-[var(--line)] pt-6 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-[15px] leading-relaxed text-[var(--ink-faint)]">
+                  If it fails, you&apos;ve lost one workflow, not a system.
+                </p>
+                <ConsultationCta
+                  label="Start with one process"
+                  className="btn-primary shrink-0"
+                  tracking="integration-pilot-cta"
+                />
+              </div>
+            </div>
+          </Reveal>
         </section>
 
         <section className="mt-20" aria-labelledby="integration-why">
@@ -272,11 +486,12 @@ export default function IntegrationPage() {
           <Reveal>
             <div className="glass rounded-3xl p-8 text-center sm:p-12">
               <h2 id="integration-cta" className="text-2xl font-semibold tracking-tight text-[var(--ink)] sm:text-3xl">
-                Keep what works. Connect what&apos;s missing.
+                You don&apos;t need to start over.
               </h2>
-              <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-[var(--ink-dim)]">
-                Tell us which system you cannot replace and which channel your patients or customers keep asking for. We
-                will map the first automation in a one-week integration review.
+              <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-[var(--ink-dim)]">
+                Legacy isn&apos;t the problem — letting it grow old alone is. Tell us which system you cannot replace and
+                which channel your patients or customers keep asking for. We will map the first automation in a one-week
+                integration review.
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <ConsultationCta label="Book an integration review" tracking="integration-final-cta" />
