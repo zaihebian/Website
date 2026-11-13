@@ -1,15 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  BookOpenText,
-  Circuitry,
-  LockKey,
-  MagnetStraight,
-  Megaphone,
-  Plugs,
-  type Icon,
-} from "@phosphor-icons/react";
+import { BookOpenText, Circuitry, MagnetStraight, Megaphone, type Icon } from "@phosphor-icons/react";
 import Reveal from "@/components/Reveal";
 
 type System = {
@@ -66,13 +58,6 @@ const groups: Group[] = [
         href: "/solutions/knowledge-hub",
         linkLabel: "Explore knowledge hub",
       },
-      {
-        icon: Plugs,
-        title: "Connect everything",
-        lead: "Your tools should work together.",
-        desc: "We integrate systems, automate workflows, and eliminate disconnected processes across your business.",
-        wash: "radial-gradient(110% 150% at 100% 0%, rgba(13,110,140,0.07), transparent 50%)",
-      },
     ],
   },
   {
@@ -100,12 +85,6 @@ const groups: Group[] = [
         wash: "radial-gradient(130% 130% at 100% 100%, rgba(13,110,140,0.065), transparent 55%)",
         href: "/solutions/customer-journey",
         linkLabel: "Explore customer journey",
-      },
-      {
-        icon: LockKey,
-        title: "Deploy private AI",
-        lead: "Keep your data where it belongs.",
-        desc: "Run powerful AI solutions on your own infrastructure with full control, privacy, and security.",
       },
     ],
   },
@@ -144,9 +123,9 @@ export default function Systems() {
                 </div>
               </Reveal>
 
-              <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
                 {group.cards.map((system, i) => (
-                  <Reveal key={system.title} delay={(i % 3) * 0.08}>
+                  <Reveal key={system.title} delay={(i % 2) * 0.08}>
                     <article
                       className="glass group relative h-full overflow-hidden rounded-3xl p-7 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 sm:p-8"
                       style={system.wash ? { backgroundImage: system.wash } : undefined}

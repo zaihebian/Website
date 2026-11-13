@@ -92,6 +92,10 @@ const trust = [
     title: "We'll tell you when it won't work",
     body: "If your documents contradict each other, are out of date, or still live in someone's head, no amount of technology will fix that. We'd rather say so in week one than in month six.",
   },
+  {
+    title: "Private AI means your hardware",
+    body: "The model runs on the device in your building, not behind someone else's API. Full control, privacy and security are properties of where it runs — not a promise in a contract.",
+  },
 ];
 
 const audience = [

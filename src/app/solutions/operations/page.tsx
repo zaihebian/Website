@@ -93,6 +93,12 @@ const content: SolutionsContent = {
         change:
           "Documented workflows, credentials in a vault, alerting on failure, and a handover your IT team signs off on.",
       },
+      {
+        title: "Every system is an island.",
+        body: "The CRM doesn't know what the ERP knows, the spreadsheet knows neither, and the handoff between them is a person. Your tools are meant to work together; in practice the integration layer is somebody's inbox.",
+        change:
+          "One flow across the systems — handoffs automated, validated and logged, so disconnected processes stop being the default.",
+      },
     ],
   },
   build: {
