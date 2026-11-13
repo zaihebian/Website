@@ -10,6 +10,9 @@ const offers = [
   "Professional development support",
 ];
 
+const employment = "Full-time";
+const workplace = "Athlone, Ireland";
+
 const roles = [
   {
     title: "AI Automation Engineer (Copilot Studio)",
@@ -63,7 +66,7 @@ const jobPostings = roles.map((role) => ({
   title: role.title,
   description: role.description,
   datePosted: "2026-11-13",
-  employmentType: "CONTRACTOR",
+  employmentType: "FULL_TIME",
   hiringOrganization: { "@type": "Organization", name: "LiqenTech", sameAs: SITE_URL },
   jobLocation: {
     "@type": "Place",
@@ -91,6 +94,9 @@ export default function CareersPage() {
           {roles.map((role) => (
             <article key={role.title} className="border-t border-[var(--line)] pt-8">
               <h2 className="text-xl font-semibold tracking-tight text-[var(--ink)]">{role.title}</h2>
+              <p className="mt-1.5 text-[13.5px] text-[var(--ink-faint)]">
+                {employment} · {workplace} (registered office)
+              </p>
               <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-[var(--ink-dim)]">{role.description}</p>
 
               <div className="mt-6 grid gap-8 sm:grid-cols-2">
