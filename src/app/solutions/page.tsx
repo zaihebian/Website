@@ -36,7 +36,7 @@ const tracks = [
     lead: "The back office: orders, invoices and the systems they run on.",
     desc: "Orders, invoices, master data, reports: the work that still moves by hand between systems that were never built to talk.",
     points: ["Nothing migrated, nothing replaced", "Interface-level automation where there is no API", "IT-approved guardrails and an audit log"],
-    linkLabel: "Operations automation",
+    linkLabel: "Explore operations",
   },
   {
     href: "/solutions/customer-journey",
@@ -44,7 +44,7 @@ const tracks = [
     lead: "The front office: leads, campaigns and the handoff to sales.",
     desc: "From the first form fill to renewal, we build the always-on campaigns that move every lead forward — then stay to run them with you.",
     points: ["Behaviour-driven segments and scoring", "Multi-step journeys and CRM sync", "Self-hosted by default, no lock-in"],
-    linkLabel: "Customer journey",
+    linkLabel: "Explore customer journey",
   },
   {
     href: "/solutions/lead-capture",
@@ -52,7 +52,7 @@ const tracks = [
     lead: "The 72 hours after a form fill.",
     desc: "Capture, qualify, follow up and hand off — automated end to end, so nothing waits in an inbox and every stage has a number attached to it.",
     points: ["First reply under 60 seconds", "Every lead has an owner and a deadline", "Monthly numbers published, not claimed"],
-    linkLabel: "Lead capture",
+    linkLabel: "Explore lead capture",
   },
   {
     href: "/solutions/integration",
@@ -60,7 +60,7 @@ const tracks = [
     lead: "The system that will never have an API.",
     desc: "WhatsApp, Teams, email and web forms connected to the software you cannot replace: Power Automate cloud flows and desktop flows layered on top, with no migration.",
     points: ["Desktop flows operate the legacy client as-is", "Connectors, Power BI and AI Builder on top", "On-premises data gateway for records that stay inside"],
-    linkLabel: "Integration & RPA",
+    linkLabel: "Explore integration",
   },
 ];
 
@@ -106,7 +106,7 @@ export default function SolutionsPage() {
                   className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-[var(--accent)] underline underline-offset-4 transition hover:text-[var(--ink)]"
                   data-track-click={`solutions-${track.href.split("/").pop()}`}
                 >
-                  Learn more
+                  {track.linkLabel}
                   <span aria-hidden="true">→</span>
                 </Link>
               </article>

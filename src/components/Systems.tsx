@@ -29,6 +29,7 @@ type Group = {
   title: string;
   desc: string;
   href: string;
+  linkLabel: string;
   track: string;
   cards: System[];
 };
@@ -45,6 +46,7 @@ const groups: Group[] = [
     title: "The back office: orders, invoices and the systems they run on",
     desc: "Automation layered on what you already run. Nothing migrated, nothing replaced.",
     href: "/solutions/operations",
+    linkLabel: "Explore operations",
     track: "systems-operations-link",
     cards: [
       {
@@ -75,6 +77,7 @@ const groups: Group[] = [
     title: "The front office: leads, campaigns and the handoff to sales",
     desc: "Always-on campaigns, lead routing and a CRM handoff that actually happens.",
     href: "/solutions/customer-journey",
+    linkLabel: "Explore customer journey",
     track: "systems-customer-journey-link",
     cards: [
       {
@@ -83,7 +86,7 @@ const groups: Group[] = [
         lead: "Capture, qualify and follow up in seconds, not days.",
         desc: "Every form, chat and call lands in one place, scored on fit and intent and routed to an owner with a deadline. First reply in under 60 seconds.",
         href: "/solutions/lead-capture",
-        linkLabel: "See lead capture",
+        linkLabel: "Explore lead capture",
       },
       {
         icon: Megaphone,
@@ -128,13 +131,8 @@ export default function Systems() {
                     <h3 className="mt-3 text-2xl font-semibold tracking-tight text-[var(--ink)]">{group.title}</h3>
                     <p className="mt-2 text-[15px] leading-relaxed text-[var(--ink-faint)]">{group.desc}</p>
                   </div>
-                  <Link
-                    href={group.href}
-                    className="btn-secondary shrink-0"
-                    data-track-click={group.track}
-                    aria-label={`Learn more about ${group.eyebrow.toLowerCase()} automation`}
-                  >
-                    Learn more
+                  <Link href={group.href} className="btn-secondary shrink-0" data-track-click={group.track}>
+                    {group.linkLabel}
                     <span aria-hidden="true">→</span>
                   </Link>
                 </div>
