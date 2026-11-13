@@ -17,6 +17,7 @@ export default function SiteFooter() {
           <Link href="/#systems" className="transition hover:text-[var(--ink)]">Systems</Link>
           <Link href="/#why" className="transition hover:text-[var(--ink)]">Why us</Link>
           <Link href="/#work" className="transition hover:text-[var(--ink)]">Work</Link>
+          <Link href="/solutions" className="transition hover:text-[var(--ink)]">Solutions</Link>
           <Link href="/integration" className="transition hover:text-[var(--ink)]">Integration</Link>
           <Link href="/careers" className="transition hover:text-[var(--ink)]">Careers</Link>
           <Link href="/#contact" className="transition hover:text-[var(--ink)]">Contact</Link>
