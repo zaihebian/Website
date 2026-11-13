@@ -1,106 +1,58 @@
 import ConsultationProvider from "@/components/ConsultationProvider";
-import StaticBackdrop from "@/components/StaticBackdrop";
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
-import Reveal from "@/components/Reveal";
 import { VisitorTracker } from "@/components/VisitorTracker";
 import { CAREERS_EMAIL, SITE_URL } from "@/lib/site";
 
+const offers = [
+  "Competitive contract rates",
+  "Opportunity to work on diverse projects",
+  "Professional development support",
+];
+
 const roles = [
   {
-    title: "Software Engineer (Frontend)",
-    tags: ["Contract", "Remote", "3+ years"],
+    title: "AI Automation Engineer (Copilot Studio)",
     description:
-      "We're looking for a skilled Frontend Engineer to join our team and help build exceptional user experiences. You'll work with modern technologies to create responsive, performant web applications.",
+      "We're hiring one engineer to build multi-agent systems for mid-sized companies: agents that hand work to each other and to the systems a business already runs. The work is Microsoft Copilot Studio, real repositories, and clients who describe the problem badly the first time.",
     responsibilities: [
-      "Develop and maintain React-based web applications",
-      "Implement responsive designs using Tailwind CSS",
-      "Optimize applications for maximum speed and scalability",
-      "Collaborate with designers to implement pixel-perfect UIs",
-      "Write clean, maintainable, and well-documented code",
-      "Participate in code reviews and technical discussions",
-      "Work with modern build tools and development workflows",
+      "Design and build agents in Microsoft Copilot Studio: topics, generative answers, connectors, escalation between agents.",
+      "Run multi-agent orchestration for mid-sized clients — routing, handoffs, guardrails and fallbacks across two or three agents and the systems behind them.",
+      "Own the code around the agents: repositories, reviews, branching, deployment scripts and documentation that matches.",
+      "Connect agents to what the client already runs — SharePoint, Dataverse, SQL, ERP or CRM — through connectors and APIs, or desktop automation where no API exists.",
+      "Scope the work with the client: turn a messy process description into an agent design, an estimate and a handover plan.",
+      "Test and monitor what you ship, and write the runbook the client's own team will use.",
     ],
     requirements: [
-      "3+ years of experience with React and modern JavaScript/TypeScript",
-      "Strong proficiency in HTML5, CSS3, and responsive design",
-      "Experience with Tailwind CSS or similar utility-first frameworks",
-      "Knowledge of modern frontend build tools (Vite, Webpack, etc.)",
-      "Experience with version control (Git) and collaborative development",
-      "Understanding of web performance optimization techniques",
-      "Bonus: Experience with animation libraries (Framer Motion, GSAP)",
-      "Bonus: Knowledge of testing frameworks (Jest, React Testing Library)",
-    ],
-    benefits: [
-      "Competitive contract rates",
-      "Flexible working hours",
-      "Remote-first culture",
-      "Opportunity to work on diverse projects",
-      "Professional development support",
+      "Five years or more in software or automation engineering, with production systems you can point to.",
+      "Hands-on Microsoft Copilot Studio: agents, topics, connectors, Power Platform integration.",
+      "Experience designing multi-agent or multi-step orchestration for mid-sized enterprises.",
+      "Strong programming in C# or TypeScript/JavaScript, plus Python where it fits — and real code management: Git, pull requests, CI, versioning.",
+      "Comfortable with Power Automate, Dataverse and one of Azure OpenAI or Azure AI Foundry.",
+      "Can explain a design to a non-technical client, and write it down.",
+      "Nice to have: Power Automate Desktop, SQL, Microsoft 365 tenancy administration.",
     ],
   },
   {
-    title: "AI Engineer",
-    tags: ["Contract", "Remote", "2+ years"],
+    title: "Oracle Engineer (development and administration)",
     description:
-      "Join our AI team to build intelligent features and systems that enhance user experiences. You'll work with cutting-edge AI technologies to solve real-world problems for our clients.",
+      "We're hiring one Oracle engineer for the systems our clients have run for a decade and will run for another: schemas, PL/SQL, and the administration around them. You'll move data between Oracle and everything else, keep the month-end reports fast, and leave documentation behind.",
     responsibilities: [
-      "Design and implement AI-powered features using LLMs and modern AI tools",
-      "Develop and deploy AI agents and automation systems",
-      "Integrate AI capabilities into existing web applications",
-      "Evaluate and optimize AI model performance",
-      "Research and prototype new AI solutions",
-      "Collaborate with frontend teams to implement AI features",
-      "Document AI systems and create technical specifications",
+      "Design and maintain Oracle schemas, PL/SQL packages, views and scheduled jobs.",
+      "Build data flows between Oracle and other systems — batch, ETL, APIs — including applications that never had an API.",
+      "Tune slow queries and month-end reports; own indexes, partitioning and execution plans.",
+      "Run the administration: users and privileges, RMAN backup and restore tests, patching and migrations.",
+      "Document data models, access rules and change history, so audits are uneventful.",
+      "Work with the automation team to expose data safely to agents and Power Automate.",
     ],
     requirements: [
-      "2+ years of experience with AI/ML technologies",
-      "Strong programming skills in Python and JavaScript/TypeScript",
-      "Experience with Large Language Models (OpenAI, Anthropic, etc.)",
-      "Knowledge of AI frameworks (LangChain, LlamaIndex, etc.)",
-      "Understanding of prompt engineering and fine-tuning techniques",
-      "Experience with API integration and web services",
-      "Bonus: Experience with vector databases and embeddings",
-      "Bonus: Knowledge of AI evaluation and testing methodologies",
-    ],
-    benefits: [
-      "Work with cutting-edge AI technologies",
-      "Competitive contract rates",
-      "Remote work flexibility",
-      "Access to latest AI tools and resources",
-      "Opportunity to shape AI product strategy",
-    ],
-  },
-  {
-    title: "Digital Marketing Specialist",
-    tags: ["Part-time", "Remote", "2+ years"],
-    description:
-      "We're seeking a Digital Marketing Specialist to drive our online presence and growth. You'll be responsible for SEO, analytics, content performance, and digital marketing strategies.",
-    responsibilities: [
-      "Develop and execute SEO strategies to improve organic visibility",
-      "Manage and analyze website analytics and performance metrics",
-      "Create and optimize content for better search rankings",
-      "Monitor and report on digital marketing campaign performance",
-      "Manage social media presence and engagement",
-      "Conduct keyword research and competitive analysis",
-      "Collaborate with development team on technical SEO improvements",
-    ],
-    requirements: [
-      "2+ years of digital marketing experience",
-      "Strong understanding of SEO best practices and tools",
-      "Experience with Google Analytics, Search Console, and similar tools",
-      "Knowledge of content marketing and social media strategies",
-      "Proficiency in marketing analytics and reporting",
-      "Experience with marketing automation tools",
-      "Bonus: Experience with paid advertising (Google Ads, social media ads)",
-      "Bonus: Basic understanding of web development and technical SEO",
-    ],
-    benefits: [
-      "Flexible part-time schedule",
-      "Remote work opportunity",
-      "Competitive hourly rates",
-      "Autonomy in marketing strategy development",
-      "Opportunity to grow with the company",
+      "Five years or more with Oracle Database (11g through 19c or 23ai) as a developer and an administrator.",
+      "Strong SQL and PL/SQL: packages, triggers, performance tuning, execution plans.",
+      "Experience with data migration, ETL and integration to non-Oracle systems.",
+      "Administration: users and roles, RMAN backup and restore, patching, tablespace and storage management.",
+      "Working knowledge of Git and a documented change process.",
+      "Can read a legacy data model and say what it actually does.",
+      "Nice to have: Oracle APEX, OCI, Oracle Fusion or E-Business Suite, SQL Server or PostgreSQL.",
     ],
   },
 ];
@@ -110,11 +62,13 @@ const jobPostings = roles.map((role) => ({
   "@type": "JobPosting",
   title: role.title,
   description: role.description,
-  datePosted: "2026-11-12",
-  employmentType: role.tags.includes("Part-time") ? "PART_TIME" : "CONTRACTOR",
+  datePosted: "2026-11-13",
+  employmentType: "CONTRACTOR",
   hiringOrganization: { "@type": "Organization", name: "LiqenTech", sameAs: SITE_URL },
-  jobLocationType: "TELECOMMUTE",
-  applicantLocationRequirements: { "@type": "Country", name: "Ireland" },
+  jobLocation: {
+    "@type": "Place",
+    address: { "@type": "PostalAddress", addressLocality: "Athlone", addressCountry: "IE" },
+  },
   directApply: false,
   url: `${SITE_URL}/careers`,
 }));
@@ -123,95 +77,65 @@ export default function CareersPage() {
   return (
     <ConsultationProvider>
       <VisitorTracker />
-      <StaticBackdrop />
       <SiteNav />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostings) }}
-      />
-      <main className="mx-auto max-w-5xl px-4 pb-28 pt-36 sm:px-6" data-track-section="careers">
-        <Reveal>
-          <h1 className="text-4xl font-semibold tracking-tighter text-[var(--ink)] sm:text-5xl">Join LiqenTech</h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-[var(--ink-dim)]">
-            We hire thoughtfully and keep teams small. If you love deep work and clean execution, we&apos;d love to hear
-            from you.
-          </p>
-        </Reveal>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPostings) }} />
 
-        <div className="mt-16 space-y-6">
+      <main className="mx-auto max-w-4xl px-4 pb-20 pt-32 sm:px-6" data-track-section="careers">
+        <h1 className="text-3xl font-semibold tracking-tighter text-[var(--ink)] sm:text-4xl">Join LiqenTech</h1>
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-[var(--ink-dim)]">
+          We hire thoughtfully and keep teams small. Two roles below, one hire each, and both need five years or more
+          doing the work rather than next to it. If that sounds like you, write to us.
+        </p>
+
+        <div className="mt-12 space-y-10">
           {roles.map((role) => (
-            <Reveal key={role.title}>
-              <article className="glass rounded-3xl p-7 sm:p-10">
-                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                  <h2 className="text-2xl font-semibold tracking-tight text-[var(--ink)]">{role.title}</h2>
-                  <div className="flex flex-wrap gap-2">
-                    {role.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-[var(--line)] bg-[rgba(10,13,17,0.04)] px-3 py-1 text-xs font-medium text-[var(--ink-dim)]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <p className="mt-5 max-w-3xl text-[15px] leading-relaxed text-[var(--ink-dim)]">{role.description}</p>
+            <article key={role.title} className="border-t border-[var(--line)] pt-8">
+              <h2 className="text-xl font-semibold tracking-tight text-[var(--ink)]">{role.title}</h2>
+              <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-[var(--ink-dim)]">{role.description}</p>
 
-                <div className="mt-8 grid gap-10 lg:grid-cols-2">
-                  <div>
-                    <h3 className="text-lg font-semibold tracking-tight text-[var(--ink)]">Key responsibilities</h3>
-                    <ul className="mt-4 space-y-2.5">
-                      {role.responsibilities.map((item) => (
-                        <li key={item} className="text-[15px] leading-relaxed text-[var(--ink-faint)]">
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold tracking-tight text-[var(--ink)]">Requirements</h3>
-                    <ul className="mt-4 space-y-2.5">
-                      {role.requirements.map((item) => (
-                        <li key={item} className="text-[15px] leading-relaxed text-[var(--ink-faint)]">
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="mt-10 border-t border-[var(--line)] pt-8">
-                  <h3 className="text-lg font-semibold tracking-tight text-[var(--ink)]">What we offer</h3>
-                  <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
-                    {role.benefits.map((item) => (
-                      <li key={item} className="text-[15px] leading-relaxed text-[var(--ink-faint)]">
-                        {item}
-                      </li>
+              <div className="mt-6 grid gap-8 sm:grid-cols-2">
+                <div>
+                  <h3 className="text-[15px] font-semibold text-[var(--ink)]">Responsibilities</h3>
+                  <ul className="mt-2.5 list-disc space-y-1.5 pl-4 text-[14px] leading-snug text-[var(--ink-faint)] marker:text-[rgba(10,13,17,0.32)]">
+                    {role.responsibilities.map((item) => (
+                      <li key={item}>{item}</li>
                     ))}
                   </ul>
                 </div>
-              </article>
-            </Reveal>
+                <div>
+                  <h3 className="text-[15px] font-semibold text-[var(--ink)]">Requirements</h3>
+                  <ul className="mt-2.5 list-disc space-y-1.5 pl-4 text-[14px] leading-snug text-[var(--ink-faint)] marker:text-[rgba(10,13,17,0.32)]">
+                    {role.requirements.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <p className="mt-6 text-[14px] leading-relaxed text-[var(--ink-faint)]">
+                <span className="font-medium text-[var(--ink)]">What we offer: </span>
+                {offers.join(" · ")}
+              </p>
+            </article>
           ))}
         </div>
 
-        <Reveal className="mt-20">
-          <div className="glass mx-auto max-w-2xl rounded-3xl p-8 text-center sm:p-12">
-            <h2 className="text-2xl font-semibold tracking-tight text-[var(--ink)]">Don&apos;t see a role that fits?</h2>
-            <p className="mt-4 text-[15px] leading-relaxed text-[var(--ink-dim)]">
-              We&apos;re always looking for talented people who care about quality. Send your CV and a brief cover letter
-              to:
-            </p>
-            <a
-              href={`mailto:${CAREERS_EMAIL}`}
-              className="mt-6 inline-block text-lg font-medium text-[var(--accent)] underline underline-offset-4 transition hover:opacity-80"
-              data-track-click="careers-email"
-            >
-              {CAREERS_EMAIL}
-            </a>
-          </div>
-        </Reveal>
+        <section className="mt-12 rounded-xl border border-[var(--line)] bg-white px-6 py-7">
+          <h2 className="text-xl font-semibold tracking-tight text-[var(--ink)]">Don&apos;t see a role that fits?</h2>
+          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[var(--ink-dim)]">
+            We&apos;re after people who can hear a problem described badly and still come back with something that makes
+            the room go quiet. CV and a brief cover letter to:
+          </p>
+          <a
+            href={`mailto:${CAREERS_EMAIL}`}
+            className="mt-3 inline-block text-base font-medium text-[var(--accent)] underline underline-offset-4 transition hover:opacity-80"
+            data-track-click="careers-email"
+          >
+            {CAREERS_EMAIL}
+          </a>
+        </section>
       </main>
+
       <SiteFooter />
     </ConsultationProvider>
   );

@@ -4,14 +4,14 @@ import { SITE_URL } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Careers",
   description:
-    "Join LiqenTech to build AI products, SaaS systems, and growth technology for modern teams. Explore remote opportunities in engineering, AI, and digital marketing.",
+    "Two open roles at LiqenTech: an AI automation engineer building multi-agent systems in Microsoft Copilot Studio, and an Oracle engineer for development and administration. Five years or more in each.",
   alternates: {
     canonical: "/careers",
   },
   openGraph: {
     title: "Careers at LiqenTech",
     description:
-      "Explore open roles at LiqenTech across frontend engineering, AI engineering, and growth marketing.",
+      "Two open roles: AI automation engineering in Microsoft Copilot Studio, and Oracle development and administration.",
     url: `${SITE_URL}/careers`,
     type: "website",
   },
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Careers at LiqenTech",
     description:
-      "Explore open roles at LiqenTech across frontend engineering, AI engineering, and growth marketing.",
+      "Two open roles: AI automation engineering in Microsoft Copilot Studio, and Oracle development and administration.",
   },
 };
 
