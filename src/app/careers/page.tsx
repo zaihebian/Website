@@ -5,7 +5,7 @@ import { VisitorTracker } from "@/components/VisitorTracker";
 import { CAREERS_EMAIL, SITE_URL } from "@/lib/site";
 
 const offers = [
-  "Competitive contract rates",
+  "Competitive salary",
   "Opportunity to work on diverse projects",
   "Professional development support",
 ];
